@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import Logout from "../components/auth/Logout";
 import Center from "../components/utils/Center";
 import Log from "./Log";
-import SignIn from "./Log";
-import BatchCard from "../components/BatchCard";
 import NavBar from "../components/NavBar";
 
 const Home = (props) => {

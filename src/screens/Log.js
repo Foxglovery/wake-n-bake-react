@@ -57,60 +57,63 @@ const RecipeFetcher = () => {
       container
       spacing={2}
       justifyContent="center"
-      style={{
-        padding: "10px", // General padding for small screens
-        margin: "0 auto", // Center grid container
-        maxWidth: "100%", // Ensure it spans the full screen width
+      sx={{
+        padding: { xs: "10px", sm: "20px" },
+        margin: "0 auto",
+        maxWidth: "100%",
       }}
     >
       {recipes.map((recipe, index) => (
         <Grid
           item
-          xs={12} // Full width on extra-small screens
+          xs={12} // Full width on small screens
           sm={6} // Two cards per row on small screens
-          md={4} // Three cards per row on medium and up
+          md={4} // Three cards per row on medium and larger screens
           key={index}
-          style={{
-            paddingLeft: "8px",
-            paddingRight: "8px",
+          sx={{
+            padding: "8px",
+            display: "flex",
+            justifyContent: "center", // Ensure it stays centered in the grid
           }}
         >
           <Card sx={{ maxWidth: 345, height: "100%", position: "relative" }}>
-            {/* Badge Container */}
+            {/* Badge for dosage */}
             <Box
               sx={{
                 position: "absolute",
                 top: 8,
                 right: 8,
-                backgroundColor: "primary.main",
+                backgroundColor: "red",
                 color: "white",
                 padding: "4px 8px",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 fontSize: "12px",
                 fontWeight: "bold",
                 zIndex: 1,
               }}
             >
-              {/* Display dosages */}
               {Object.entries(recipe.dosage).map(([key, dose], index) => (
                 <div key={index}>
-                  {key}: {dose.mg}mg
+                  {dose.cannabinoid}: {dose.mg}mg
                 </div>
               ))}
             </Box>
 
             <CardContent>
-              {/* Recipe Name */}
               <Typography
                 gutterBottom
                 variant="h6"
                 component="div"
-                sx={{ textAlign: "center", marginBottom: 2 }}
+                sx={{
+                  textAlign: "center",
+                  marginBottom: 2,
+                  marginTop: 1,
+                  fontWeight: "bold",
+                }}
               >
                 {recipe.recipeName}
               </Typography>
 
-              {/* Quantity and Date */}
               <Box
                 sx={{
                   display: "flex",

@@ -17,13 +17,13 @@ const routes = [
     protected: false,
   },
   {
-    path: "/Log",
+    path: "/findIt",
     component: Log,
     name: "Log of Batches",
     protected: true, // if user needs to be authenticated to access this screen
   },
   {
-    path: "/BakeIt",
+    path: "/bakeIt",
     component: BakeIt,
     name: "Adding a batch to the database",
     protected: true, // if user needs to be authenticated to access this screen
