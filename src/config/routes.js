@@ -1,3 +1,4 @@
+import AddBatch from "../screens/AddBatch";
 import Home from "../screens/Home";
 import Log from "../screens/Log";
 import Login from "../screens/Login";
@@ -18,8 +19,14 @@ const routes = [
   {
     path: "/Log",
     component: Log,
-    name: "Screen Name For Reference",
-    protected: false, // if user needs to be authenticated to access this screen
+    name: "Log of Batches",
+    protected: true, // if user needs to be authenticated to access this screen
+  },
+  {
+    path: "/AddBatch",
+    component: AddBatch,
+    name: "Adding a batch to the database",
+    protected: true, // if user needs to be authenticated to access this screen
   },
 ];
 

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,10 +14,20 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = [
+  { name: "Products", link: "/products" },
+  { name: "Pricing", link: "/pricing" },
+  { name: "Blog", link: "/blog" },
+];
 
-function NavBar() {
+const settings = [
+  { name: "Profile", link: "/profile" },
+  { name: "Account", link: "/account" },
+  { name: "Dashboard", link: "/dashboard" },
+  { name: "Logout", link: "/logout" },
+];
+
+function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -43,8 +54,8 @@ function NavBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link} // Use Link instead of a regular <a>
+            to="/" // Link to the home route
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -86,8 +97,14 @@ function NavBar() {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: "center" }}>{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography
+                    component={Link}
+                    to={page.link}
+                    sx={{ textAlign: "center", textDecoration: "none" }}
+                  >
+                    {page.name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -96,8 +113,8 @@ function NavBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to="/" // Link to the home route for mobile view
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -114,11 +131,12 @@ function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
+                component={Link} // Use Link for routing
+                to={page.link} // Pass the link to each page
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -145,9 +163,13 @@ function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    {setting}
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Typography
+                    component={Link}
+                    to={setting.link} // Assign the link dynamically
+                    sx={{ textAlign: "center", textDecoration: "none" }}
+                  >
+                    {setting.name}
                   </Typography>
                 </MenuItem>
               ))}
@@ -158,4 +180,5 @@ function NavBar() {
     </AppBar>
   );
 }
-export default NavBar;
+
+export default ResponsiveAppBar;
