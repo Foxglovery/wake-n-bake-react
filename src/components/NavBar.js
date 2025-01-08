@@ -15,9 +15,9 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = [
-  { name: "Products", link: "/products" },
-  { name: "Pricing", link: "/pricing" },
-  { name: "Blog", link: "/blog" },
+  { name: "Bake It", link: "/BakeIt" },
+  { name: "Find It", link: "/pricing" },
+  { name: "Dose It", link: "/blog" },
 ];
 
 const settings = [

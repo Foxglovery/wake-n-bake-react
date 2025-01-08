@@ -1,4 +1,4 @@
-import AddBatch from "../screens/AddBatch";
+import BakeIt from "../screens/BakeIt";
 import Home from "../screens/Home";
 import Log from "../screens/Log";
 import Login from "../screens/Login";
@@ -23,8 +23,8 @@ const routes = [
     protected: true, // if user needs to be authenticated to access this screen
   },
   {
-    path: "/AddBatch",
-    component: AddBatch,
+    path: "/BakeIt",
+    component: BakeIt,
     name: "Adding a batch to the database",
     protected: true, // if user needs to be authenticated to access this screen
   },
