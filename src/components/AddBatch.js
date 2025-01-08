@@ -96,7 +96,19 @@ const AddBatch = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBatch((prev) => ({ ...prev, [name]: value }));
+
+    // IF THE RECIPE NAME DROPDOWN IS CHANGED
+    if (name === "recipeName") {
+      // FIND THE RECIPE NAME BASED ON THE SELECTED ID
+      const selectedRecipe = recipes.find((recipe) => recipe.id === value);
+      setBatch((prev) => ({
+        ...prev,
+        recipeName: selectedRecipe ? selectedRecipe.name : value, // STORE THE NAME, NOT THE ID
+      }));
+    } else {
+      // UPDATE OTHER FIELDS AS USUAL
+      setBatch((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleDosageChange = (index, field, value) => {

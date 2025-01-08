@@ -6,14 +6,20 @@ import AddBatch from "../components/AddBatch";
 import { Box, Grid } from "@mui/material";
 import Log from "./Log";
 
-const BakeIt = (props) => {
+const FindIt = (props) => {
   useEffect(() => {}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Center>
       <NavBar />
-      <Box sx={{ width: "100%", marginTop: "64px" }}>
-        <Grid>
+      {/* Adjust marginTop to properly offset the fixed/sticky navbar */}
+      <Box
+        sx={{
+          width: "100%",
+          marginTop: { xs: "80px", sm: "96px" }, // Dynamically adjust based on screen size
+        }}
+      >
+        <Grid container justifyContent="center">
           <Grid item xs={12} sm={8} md={6} lg={4}>
             <Log />
           </Grid>
@@ -24,4 +30,4 @@ const BakeIt = (props) => {
   );
 };
 
-export default BakeIt;
+export default FindIt;

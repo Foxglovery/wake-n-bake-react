@@ -10,21 +10,37 @@ import {
   Box,
 } from "@mui/material";
 
-const RecipeFetcher = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Log = () => {
+  const [recipes, setRecipes] = useState([]); // Store fetched recipes
+  const [employees, setEmployees] = useState({}); // Map employee IDs to names
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
-    const fetchRecipes = async () => {
+    const fetchData = async () => {
       try {
-        const dbRef = ref(database, "batches");
-        const snapshot = await get(dbRef);
+        // Fetch batches
+        const batchesRef = ref(database, "batches");
+        const batchesSnapshot = await get(batchesRef);
 
-        if (snapshot.exists()) {
-          setRecipes(Object.values(snapshot.val()));
+        // Fetch employees
+        const employeesRef = ref(database, "employees");
+        const employeesSnapshot = await get(employeesRef);
+
+        if (batchesSnapshot.exists()) {
+          setRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
         } else {
-          setError("No data available");
+          setError("No batches available");
+        }
+
+        if (employeesSnapshot.exists()) {
+          // Map employee data: { uid: name }
+          const employeeData = employeesSnapshot.val();
+          const employeeMap = Object.keys(employeeData).reduce((acc, uid) => {
+            acc[uid] = employeeData[uid].name; // Only extract names
+            return acc;
+          }, {});
+          setEmployees(employeeMap);
         }
       } catch (err) {
         setError(err.message);
@@ -33,107 +49,146 @@ const RecipeFetcher = () => {
       }
     };
 
-    fetchRecipes();
+    fetchData();
   }, []);
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <Box sx={{ textAlign: "center", marginTop: "50px" }}>
         <CircularProgress />
-      </div>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <Box sx={{ textAlign: "center", marginTop: "50px" }}>
         <Typography color="error">{`Error: ${error}`}</Typography>
-      </div>
+      </Box>
     );
   }
 
   return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
+    <Box
       sx={{
-        padding: { xs: "10px", sm: "20px" },
-        margin: "0 auto",
-        maxWidth: "100%",
+        width: "100%",
+        paddingTop: { xs: "100px", sm: "90px" }, // Prevent overlap with NavBar
+        paddingX: "16px", // Horizontal padding
       }}
     >
-      {recipes.map((recipe, index) => (
-        <Grid
-          item
-          xs={12} // Full width on small screens
-          sm={6} // Two cards per row on small screens
-          md={4} // Three cards per row on medium and larger screens
-          key={index}
-          sx={{
-            padding: "8px",
-            display: "flex",
-            justifyContent: "center", // Ensure it stays centered in the grid
-          }}
-        >
-          <Card sx={{ maxWidth: 345, height: "100%", position: "relative" }}>
-            {/* Badge for dosage */}
-            <Box
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        sx={{
+          margin: "0 auto",
+          maxWidth: "100%",
+        }}
+      >
+        {recipes.map((recipe, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            key={index}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Card
               sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                backgroundColor: "red",
-                color: "black",
-                padding: "4px 8px",
-                borderRadius: "4px",
-                fontSize: "12px",
-                fontWeight: "bold",
-                zIndex: 1,
+                width: "100%",
+                maxWidth: 345,
+                height: "auto", // Let the height adjust based on content
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                marginBottom: "16px", // Add consistent spacing between cards
+                position: "relative", // Ensure badge positioning works
               }}
             >
-              {Object.entries(recipe.dosage).map(([key, dose], index) => (
-                <div key={index}>
-                  {dose.cannabinoid}: {dose.mg}mg
-                </div>
-              ))}
-            </Box>
-
-            <CardContent>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="div"
+              {/* Badge for Dosage */}
+              <Box
                 sx={{
-                  textAlign: "center",
-                  marginBottom: 2,
-                  marginTop: 1,
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  backgroundColor: "red",
+                  color: "white",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  fontSize: "13px",
                   fontWeight: "bold",
                 }}
               >
-                {recipe.recipeName}
-              </Typography>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: 2,
-                }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  Quantity: {recipe.quantity}
-                </Typography>
-                <Typography variant="body2" color="text.primary">
-                  Date: {recipe.date}
-                </Typography>
+                {Object.entries(recipe.dosage || {}).map(
+                  ([key, dose], index) => (
+                    <div key={index}>
+                      {dose.cannabinoid}: {dose.mg}mg
+                    </div>
+                  )
+                )}
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+
+              {/* Card Content */}
+              <CardContent>
+                {/* Recipe Name */}
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    fontWeight: "bold",
+                    marginBottom: 2,
+                    textAlign: "center",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {recipe.recipeName || "Unnamed Recipe"}
+                </Typography>
+
+                {/* Quantity and Date */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 2,
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    Quantity: {recipe.quantity || "N/A"}
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    Date: {recipe.date || "N/A"}
+                  </Typography>
+                </Box>
+
+                {/* Order Name and Employee */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column", // Stack vertically
+                    alignItems: "start",
+                    gap: 1, // Space between lines
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    Order: {recipe.orderName || "N/A"}
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    Made By: {employees[recipe.employeeId] || "Unknown"}
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
-export default RecipeFetcher;
+export default Log;
