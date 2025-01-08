@@ -81,12 +81,12 @@ const RecipeFetcher = () => {
             <Box
               sx={{
                 position: "absolute",
-                top: 8,
-                right: 8,
+                top: 0,
+                right: 0,
                 backgroundColor: "red",
-                color: "white",
+                color: "black",
                 padding: "4px 8px",
-                borderRadius: "12px",
+                borderRadius: "4px",
                 fontSize: "12px",
                 fontWeight: "bold",
                 zIndex: 1,

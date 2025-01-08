@@ -22,7 +22,7 @@ const pages = [
 
 const settings = [
   { name: "Profile", link: "/profile" },
-  { name: "Account", link: "/account" },
+  { name: "Add A Recipe", link: "/addRecipe" },
   { name: "Dashboard", link: "/dashboard" },
   { name: "Logout", link: "/logout" },
 ];
