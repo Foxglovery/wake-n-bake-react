@@ -4,20 +4,15 @@ import Center from "../components/utils/Center";
 import NavBar from "../components/NavBar";
 import AddBatch from "../components/AddBatch";
 import { Box, Grid } from "@mui/material";
+import NavBarSimple from "../components/NavBarSimple";
 
 const BakeIt = (props) => {
   useEffect(() => {}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Center>
+    <Center height={100}>
       <NavBar />
-      <Box sx={{ width: "100%", marginTop: "64px" }}>
-        <Grid>
-          <Grid item xs={12} sm={8} md={6} lg={4}>
-            <AddBatch />
-          </Grid>
-        </Grid>
-      </Box>
+      <AddBatch />
       <Logout />
     </Center>
   );

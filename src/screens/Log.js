@@ -72,13 +72,13 @@ const Log = () => {
     <Box
       sx={{
         width: "100%",
-        paddingTop: { xs: "100px", sm: "90px" }, // Prevent overlap with NavBar
+        paddingTop: { xs: "10px", sm: "10px" }, // Prevent overlap with NavBar
         paddingX: "16px", // Horizontal padding
       }}
     >
       <Grid
         container
-        spacing={2}
+        spacing={3}
         justifyContent="center"
         sx={{
           margin: "0 auto",
@@ -105,7 +105,7 @@ const Log = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                marginBottom: "16px", // Add consistent spacing between cards
+                //marginBottom: "16px", // Add consistent spacing between cards
                 position: "relative", // Ensure badge positioning works
               }}
             >

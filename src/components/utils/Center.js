@@ -1,9 +1,12 @@
 import React from "react";
 
-const Center = ({ children, height = 100 }) => {
+const Center = ({ children, height }) => {
   let useHeight;
+
+  // If a height prop is passed, calculate the height, otherwise default to "auto"
   if (typeof height === "string") useHeight = height;
-  else useHeight = height + "vh";
+  else if (typeof height === "number") useHeight = height + "vh";
+  else useHeight = "auto"; // Let the height adjust based on content
 
   return (
     <div
@@ -12,7 +15,8 @@ const Center = ({ children, height = 100 }) => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        height: useHeight,
+        height: useHeight, // Default to "auto" if no height prop is passed
+        marginTop: "64px", // Add a margin to account for the fixed navbar
       }}
     >
       {children}
