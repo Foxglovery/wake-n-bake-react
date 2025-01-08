@@ -1,5 +1,6 @@
 import AddARecipe from "../screens/AddRecipe";
 import BakeIt from "../screens/BakeIt";
+import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
 import Log from "../screens/Log";
 import Login from "../screens/Login";
@@ -19,7 +20,7 @@ const routes = [
   },
   {
     path: "/findIt",
-    component: Log,
+    component: FindIt,
     name: "Log of Batches",
     protected: true, // if user needs to be authenticated to access this screen
   },
