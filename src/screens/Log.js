@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
   Grid,
+  Box,
 } from "@mui/material";
 
 const RecipeFetcher = () => {
@@ -15,14 +16,13 @@ const RecipeFetcher = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch data from Firebase Realtime Database
     const fetchRecipes = async () => {
       try {
-        const dbRef = ref(database, "batches"); // Adjust the path to your data
+        const dbRef = ref(database, "batches");
         const snapshot = await get(dbRef);
 
         if (snapshot.exists()) {
-          setRecipes(Object.values(snapshot.val())); // Convert the snapshot to an array
+          setRecipes(Object.values(snapshot.val()));
         } else {
           setError("No data available");
         }
@@ -56,33 +56,75 @@ const RecipeFetcher = () => {
     <Grid
       container
       spacing={2}
-      justifyContent="center" // Center the cards horizontally
-      alignItems="stretch" // Ensure cards have equal height
-      style={{ marginTop: "20px" }}
+      justifyContent="center"
+      style={{
+        padding: "10px", // General padding for small screens
+        margin: "0 auto", // Center grid container
+        maxWidth: "100%", // Ensure it spans the full screen width
+      }}
     >
       {recipes.map((recipe, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
-          <Card sx={{ maxWidth: 345, height: "100%" }}>
+        <Grid
+          item
+          xs={12} // Full width on extra-small screens
+          sm={6} // Two cards per row on small screens
+          md={4} // Three cards per row on medium and up
+          key={index}
+          style={{
+            paddingLeft: "8px",
+            paddingRight: "8px",
+          }}
+        >
+          <Card sx={{ maxWidth: 345, height: "100%", position: "relative" }}>
+            {/* Badge Container */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                backgroundColor: "primary.main",
+                color: "white",
+                padding: "4px 8px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                fontWeight: "bold",
+                zIndex: 1,
+              }}
+            >
+              {/* Display dosages */}
+              {Object.entries(recipe.dosage).map(([key, dose], index) => (
+                <div key={index}>
+                  {key}: {dose.mg}mg
+                </div>
+              ))}
+            </Box>
+
             <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
+              {/* Recipe Name */}
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{ textAlign: "center", marginBottom: 2 }}
+              >
                 {recipe.recipeName}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Quantity: {recipe.quantity}
-              </Typography>
-              <Typography variant="body2" color="text.primary">
-                Date: {recipe.date}
-              </Typography>
-              <Typography variant="body2" color="text.primary">
-                Dosage:
-                <ul>
-                  {Object.entries(recipe.dosage).map(([key, dose], index) => (
-                    <li key={index}>
-                      {key}: {dose.cannabinoid} - {dose.mg}mg
-                    </li>
-                  ))}
-                </ul>
-              </Typography>
+
+              {/* Quantity and Date */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: 2,
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  Quantity: {recipe.quantity}
+                </Typography>
+                <Typography variant="body2" color="text.primary">
+                  Date: {recipe.date}
+                </Typography>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
