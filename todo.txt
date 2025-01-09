@@ -1,0 +1,10 @@
+Log {
+    -add sorting buttons
+    -sort by month
+    -sort by recipe
+}
+
+Navbar {
+    -remove link formatting
+    -replace logo
+}

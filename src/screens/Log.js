@@ -114,6 +114,7 @@ const Log = () => {
                       sx={{
                         top: 0,
                         right: 0,
+                        backgroundColor: "#479910",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg
@@ -127,6 +128,7 @@ const Log = () => {
                       sx={{
                         top: 0,
                         left: 0,
+                        backgroundColor: "#9D0D7E",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg

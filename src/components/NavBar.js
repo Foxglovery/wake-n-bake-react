@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import logo from "../assets/weed-leaf.png";
 
 const pages = [
   { name: "Bake It", link: "/bakeIt" },
@@ -34,6 +34,7 @@ function ResponsiveAppBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -50,12 +51,19 @@ function ResponsiveAppBar() {
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          {/* Desktop Logo */}
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <img
+              src={logo}
+              alt="Marijuana Leaf Logo"
+              style={{ height: "60px", marginRight: "8px" }}
+            />
+          </Box>
           <Typography
             variant="h6"
             noWrap
-            component={Link} // Use Link instead of a regular <a>
-            to="/" // Link to the home route
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -66,7 +74,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Wake-N-Bake
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -101,7 +109,11 @@ function ResponsiveAppBar() {
                   <Typography
                     component={Link}
                     to={page.link}
-                    sx={{ textAlign: "center", textDecoration: "none" }}
+                    sx={{
+                      textAlign: "center",
+                      textDecoration: "none",
+                      color: "white",
+                    }}
                   >
                     {page.name}
                   </Typography>
@@ -109,12 +121,20 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+
+          {/* Mobile Logo */}
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <img
+              src={logo}
+              alt="Marijuana Leaf Logo"
+              style={{ height: "60px", marginRight: "8px" }}
+            />
+          </Box>
           <Typography
             variant="h5"
             noWrap
             component={Link}
-            to="/" // Link to the home route for mobile view
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -126,20 +146,29 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Wake-N-Bake
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page.name}
-                component={Link} // Use Link for routing
-                to={page.link} // Pass the link to each page
-                sx={{ my: 2, color: "white", display: "block" }}
+                component={Link}
+                to={page.link}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  textDecoration: "none", // Ensure no underline
+                  "&:hover": { color: "white" }, // Prevent color change on hover
+                  "&:focus": { color: "white" }, // Prevent color change on focus
+                }}
               >
                 {page.name}
               </Button>
             ))}
           </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -166,7 +195,7 @@ function ResponsiveAppBar() {
                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                   <Typography
                     component={Link}
-                    to={setting.link} // Assign the link dynamically
+                    to={setting.link}
                     sx={{ textAlign: "center", textDecoration: "none" }}
                   >
                     {setting.name}
