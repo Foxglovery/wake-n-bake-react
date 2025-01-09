@@ -12,6 +12,7 @@ import {
   Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import Center from "../components/utils/Center";
 
 // Styled Badge for Dosage
 const DosageBadge = styled(Box)(({ theme }) => ({
@@ -26,7 +27,6 @@ const DosageBadge = styled(Box)(({ theme }) => ({
 
 // Styled Card Wrapper
 const StyledCard = styled(Card)(({ theme }) => ({
-  height: "100%",
   position: "relative",
   display: "flex",
   flexDirection: "column",
@@ -35,7 +35,34 @@ const StyledCard = styled(Card)(({ theme }) => ({
   "&:hover": {
     boxShadow: theme.shadows[6],
   },
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "column", // Column layout on tablet/desktop
+  },
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column", // Stack vertically on mobile
+    transform: "scale(0.9)", // Scale down cards to fit 3 columns
+    height: "auto",
+  },
 }));
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { month: "short" }; // Short month name, e.g., "Jan."
+  const month = new Intl.DateTimeFormat("en-US", options).format(date);
+
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  // Determine the appropriate suffix for the day
+  const suffix = (day) => {
+    if (day % 10 === 1 && day !== 11) return "st";
+    if (day % 10 === 2 && day !== 12) return "nd";
+    if (day % 10 === 3 && day !== 13) return "rd";
+    return "th";
+  };
+
+  return `${month}. ${day}${suffix(day)} ${year}`;
+}
 
 const Log = () => {
   const [recipes, setRecipes] = useState([]); // Store fetched recipes
@@ -102,7 +129,7 @@ const Log = () => {
     <Box sx={{ marginTop: "64px", padding: "16px" }}>
       <Grid container spacing={3}>
         {recipes.map((recipe, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <StyledCard>
               {/* Dosage Badges */}
               {Object.entries(recipe.dosage || {}).map(([key, dose], idx) => {
@@ -112,9 +139,10 @@ const Log = () => {
                     <DosageBadge
                       key={idx}
                       sx={{
-                        top: 0,
-                        right: 0,
-                        backgroundColor: "#479910",
+                        top: idx === 0 ? 0 : "unset", // Top-right for first badge
+                        left: idx === 1 ? 0 : "unset", // Top-left for second badge
+                        right: idx === 0 ? 0 : "unset", // Top-right for first badge
+                        backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg
@@ -126,9 +154,10 @@ const Log = () => {
                     <DosageBadge
                       key={idx}
                       sx={{
-                        top: 0,
-                        left: 0,
-                        backgroundColor: "#9D0D7E",
+                        top: idx === 0 ? 0 : "unset", // Top-right for first badge
+                        left: idx === 1 ? 0 : "unset", // Top-left for second badge
+                        right: idx === 0 ? 0 : "unset", // Top-right for first badge
+                        backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg
@@ -144,57 +173,85 @@ const Log = () => {
                 <Typography
                   variant="h5"
                   sx={{
-                    marginTop: 2,
+                    marginTop: { xs: 2, sm: 2, md: 2 },
+                    fontSize: { xs: "18px", sm: "18px", md: "20px" }, // Adjust font size for screens
                     fontWeight: "bold",
                     mb: 1,
-                    textAlign: "center",
+                    textAlign: { xs: "center", sm: "center", md: "center" },
                   }}
                 >
                   {recipe.recipeName || "Unnamed Recipe"}
                 </Typography>
 
-                {/* Employee Info */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 2,
-                  }}
-                >
-                  <Avatar sx={{ mr: 2 }}>
-                    {employees[recipe.employeeId]?.charAt(0) || "?"}
-                  </Avatar>
-                  <Typography variant="body1" color="text.secondary">
-                    {employees[recipe.employeeId] || "Unknown"}
-                  </Typography>
-                </Box>
-
                 {/* Quantity and Date */}
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 1,
+                    justifyContent: {
+                      xs: "space-between",
+                      md: "space-between",
+                      lg: "space-between",
+                    },
+                    gap: { xs: "8px", md: "16px" }, // Adjust gap for smaller screens
+                    marginBottom: { xs: 1, md: 1, lg: 1 },
+                    backgroundColor: "#390040",
+                    borderRadius: "6px",
                   }}
                 >
-                  <Chip
-                    label={`Quantity: ${recipe.quantity || "N/A"}`}
-                    variant="outlined"
-                    size="small"
-                    color="primary"
-                  />
-                  <Chip
-                    label={`Date: ${recipe.date || "N/A"}`}
-                    variant="outlined"
-                    size="small"
-                    color="secondary"
-                  />
+                  {/* Quantity El */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    paddingLeft={1}
+                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                  >
+                    Quantity: {recipe.quantity || "N/A"}
+                  </Typography>
+
+                  {/* Date El */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    paddingRight={1}
+                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                  >
+                    {formatDate(recipe.date) || "N/A"}
+                  </Typography>
                 </Box>
 
-                {/* Order Info */}
-                <Typography variant="body2" color="text.secondary">
-                  Order: {recipe.orderName || "N/A"}
-                </Typography>
+                {/* Order and Employee  */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: { xs: "center", sm: "center", md: "center" },
+                    marginBottom: { xs: 2, sm: 2, md: 2 },
+                    backgroundColor: "#004346",
+                    borderRadius: "6px",
+                  }}
+                >
+                  {/* Order El */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    paddingLeft={1}
+                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                  >
+                    Order: {recipe.orderName || "N/A"}
+                  </Typography>
+
+                  {/* Employee El */}
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    paddingRight={1}
+                    sx={{
+                      fontSize: { xs: "12px", md: "14px" }, // Adjust font size for mobile/desktop
+                    }}
+                  >
+                    {employees[recipe.employeeId] || "Unknown"}
+                  </Typography>
+                </Box>
               </CardContent>
             </StyledCard>
           </Grid>
@@ -216,8 +273,42 @@ export default Log;
 //   Typography,
 //   Grid,
 //   Box,
+//   Avatar,
+//   Chip,
 // } from "@mui/material";
+// import { styled } from "@mui/system";
+// import Center from "../components/utils/Center";
 
+// // Styled Badge for Dosage
+// const DosageBadge = styled(Box)(({ theme }) => ({
+//   position: "absolute",
+//   padding: "4px 8px",
+//   borderRadius: "4px",
+//   fontSize: "12px",
+//   fontWeight: "bold",
+//   backgroundColor: theme.palette.primary.main,
+//   color: theme.palette.primary.contrastText,
+// }));
+
+// // Styled Card Wrapper
+// const StyledCard = styled(Card)(({ theme }) => ({
+//   position: "relative",
+//   display: "flex",
+//   flexDirection: "column",
+//   justifyContent: "space-between",
+//   boxShadow: theme.shadows[3],
+//   "&:hover": {
+//     boxShadow: theme.shadows[6],
+//   },
+//   [theme.breakpoints.up("sm")]: {
+//     flexDirection: "column", // Column layout on tablet/desktop
+//   },
+//   [theme.breakpoints.down("sm")]: {
+//     flexDirection: "column", // Stack vertically on mobile
+//     transform: "scale(0.9)", // Scale down cards to fit 3 columns
+//     height: "auto",
+//   },
+// }));
 // const Log = () => {
 //   const [recipes, setRecipes] = useState([]); // Store fetched recipes
 //   const [employees, setEmployees] = useState({}); // Map employee IDs to names
@@ -242,10 +333,9 @@ export default Log;
 //         }
 
 //         if (employeesSnapshot.exists()) {
-//           // Map employee data: { uid: name }
 //           const employeeData = employeesSnapshot.val();
 //           const employeeMap = Object.keys(employeeData).reduce((acc, uid) => {
-//             acc[uid] = employeeData[uid].name; // Only extract names
+//             acc[uid] = employeeData[uid].name; // Map employee UID to name
 //             return acc;
 //           }, {});
 //           setEmployees(employeeMap);
@@ -262,7 +352,9 @@ export default Log;
 
 //   if (loading) {
 //     return (
-//       <Box sx={{ textAlign: "center", marginTop: "50px" }}>
+//       <Box
+//         sx={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+//       >
 //         <CircularProgress />
 //       </Box>
 //     );
@@ -270,129 +362,137 @@ export default Log;
 
 //   if (error) {
 //     return (
-//       <Box sx={{ textAlign: "center", marginTop: "50px" }}>
+//       <Box
+//         sx={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+//       >
 //         <Typography color="error">{`Error: ${error}`}</Typography>
 //       </Box>
 //     );
 //   }
 
 //   return (
-//     <Box
-//       sx={{
-//         width: "100%",
-//         paddingTop: { xs: "10px", sm: "10px" }, // Prevent overlap with NavBar
-//         paddingX: "16px", // Horizontal padding
-//       }}
-//     >
-//       <Grid
-//         container
-//         spacing={3}
-//         justifyContent="center"
-//         sx={{
-//           margin: "0 auto",
-//           maxWidth: "100%",
-//         }}
-//       >
+//     <Box sx={{ marginTop: "64px", padding: "16px" }}>
+//       <Grid container spacing={3}>
 //         {recipes.map((recipe, index) => (
-//           <Grid
-//             item
-//             xs={12}
-//             sm={6}
-//             md={4}
-//             key={index}
-//             sx={{
-//               display: "flex",
-//               justifyContent: "center",
-//             }}
-//           >
-//             <Card
-//               sx={{
-//                 width: "100%",
-//                 maxWidth: 345,
-//                 height: "auto", // Let the height adjust based on content
-//                 display: "flex",
-//                 flexDirection: "column",
-//                 justifyContent: "space-between",
-//                 //marginBottom: "16px", // Add consistent spacing between cards
-//                 position: "relative", // Ensure badge positioning works
-//               }}
-//             >
-//               {/* Badge for Dosage */}
-//               <Box
-//                 sx={{
-//                   position: "absolute",
-//                   top: 0,
-//                   right: 0,
-//                   backgroundColor: "red",
-//                   color: "white",
-//                   padding: "4px 8px",
-//                   borderRadius: "4px",
-//                   fontSize: "13px",
-//                   fontWeight: "bold",
-//                 }}
-//               >
-//                 {Object.entries(recipe.dosage || {}).map(
-//                   ([key, dose], index) => (
-//                     <div key={index}>
+//           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+//             <StyledCard>
+//               {/* Dosage Badges */}
+//               {Object.entries(recipe.dosage || {}).map(([key, dose], idx) => {
+//                 if (idx === 0) {
+//                   // First badge (top-right corner)
+//                   return (
+//                     <DosageBadge
+//                       key={idx}
+//                       sx={{
+//                         top: idx === 0 ? 0 : "unset", // Top-right for first badge
+//                         left: idx === 1 ? 0 : "unset", // Top-left for second badge
+//                         right: idx === 0 ? 0 : "unset", // Top-right for first badge
+//                         backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
+//                       }}
+//                     >
 //                       {dose.cannabinoid}: {dose.mg}mg
-//                     </div>
-//                   )
-//                 )}
-//               </Box>
+//                     </DosageBadge>
+//                   );
+//                 } else if (idx === 1) {
+//                   // Second badge (top-left corner)
+//                   return (
+//                     <DosageBadge
+//                       key={idx}
+//                       sx={{
+//                         top: idx === 0 ? 0 : "unset", // Top-right for first badge
+//                         left: idx === 1 ? 0 : "unset", // Top-left for second badge
+//                         right: idx === 0 ? 0 : "unset", // Top-right for first badge
+//                         backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
+//                       }}
+//                     >
+//                       {dose.cannabinoid}: {dose.mg}mg
+//                     </DosageBadge>
+//                   );
+//                 } else {
+//                   return null; // Ignore additional doses
+//                 }
+//               })}
 
-//               {/* Card Content */}
 //               <CardContent>
 //                 {/* Recipe Name */}
 //                 <Typography
-//                   variant="h6"
-//                   component="div"
+//                   variant="h5"
 //                   sx={{
+//                     marginTop: { xs: 2, sm: 2, md: 2 },
+//                     fontSize: { xs: "18px", sm: "18px", md: "20px" }, // Adjust font size for screens
 //                     fontWeight: "bold",
-//                     marginBottom: 2,
-//                     marginTop: 2,
-//                     textAlign: "center",
-//                     overflow: "hidden",
-//                     textOverflow: "ellipsis",
-//                     whiteSpace: "nowrap",
+//                     mb: 1,
+//                     textAlign: { xs: "center", sm: "center", md: "center" },
 //                   }}
 //                 >
 //                   {recipe.recipeName || "Unnamed Recipe"}
 //                 </Typography>
 
+//                 {/* Employee Info */}
+//                 <Box
+//                   sx={{
+//                     display: "flex",
+//                     alignItems: { xs: "center", sm: "center", md: "center" },
+//                     marginBottom: { xs: 2, sm: 2, md: 2 },
+//                   }}
+//                 >
+//                   <Avatar
+//                     sx={{
+//                       width: { xs: 32, md: 48 }, // Smaller avatar on mobile
+//                       height: { xs: 32, md: 48 },
+//                       mr: { xs: 2, md: 2, lg: 2 },
+//                     }}
+//                   >
+//                     {employees[recipe.employeeId]?.charAt(0) || "?"}
+//                   </Avatar>
+//                   <Typography
+//                     variant="body1"
+//                     color="text.secondary"
+//                     sx={{
+//                       fontSize: { xs: "14px", md: "16px" }, // Adjust font size for mobile/desktop
+//                     }}
+//                   >
+//                     {employees[recipe.employeeId] || "Unknown"}
+//                   </Typography>
+//                 </Box>
+
 //                 {/* Quantity and Date */}
 //                 <Box
 //                   sx={{
 //                     display: "flex",
-//                     justifyContent: "space-between",
-//                     marginBottom: 2,
+//                     justifyContent: {
+//                       xs: "space-between",
+//                       md: "space-between",
+//                       lg: "space-between",
+//                     },
+//                     gap: { xs: "8px", md: "16px" }, // Adjust gap for smaller screens
+//                     marginBottom: { xs: 1, md: 1, lg: 1 },
 //                   }}
 //                 >
-//                   <Typography variant="body2" color="text.secondary">
-//                     Quantity: {recipe.quantity || "N/A"}
-//                   </Typography>
-//                   <Typography variant="body2" color="text.primary">
-//                     Date: {recipe.date || "N/A"}
-//                   </Typography>
+//                   <Chip
+//                     label={`Quantity: ${recipe.quantity || "N/A"}`}
+//                     variant="outlined"
+//                     size="small"
+//                     color="primary"
+//                   />
+//                   <Chip
+//                     label={`Date: ${recipe.date || "N/A"}`}
+//                     variant="outlined"
+//                     size="small"
+//                     color="secondary"
+//                   />
 //                 </Box>
 
-//                 {/* Order Name and Employee */}
-//                 <Box
-//                   sx={{
-//                     display: "flex",
-//                     flexDirection: "column", // Stack vertically
-//                     alignItems: "start",
-//                     gap: 1, // Space between lines
-//                   }}
+//                 {/* Order Info */}
+//                 <Typography
+//                   variant="body2"
+//                   color="text.secondary"
+//                   sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
 //                 >
-//                   <Typography variant="body2" color="text.secondary">
-//                     Order: {recipe.orderName || "N/A"}
-//                   </Typography>
-//                   <Typography variant="body2" color="text.primary">
-//                     Made By: {employees[recipe.employeeId] || "Unknown"}
-//                   </Typography>
-//                 </Box>
+//                   Order: {recipe.orderName || "N/A"}
+//                 </Typography>
 //               </CardContent>
-//             </Card>
+//             </StyledCard>
 //           </Grid>
 //         ))}
 //       </Grid>

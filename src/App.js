@@ -22,6 +22,9 @@ const darkTheme = createTheme({
     primary: {
       main: "#90caf9", // Material blue
     },
+    chip: {
+      main: "#3AAED8",
+    },
     secondary: {
       main: "#f48fb1", // Material pink
     },

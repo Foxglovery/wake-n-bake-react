@@ -79,7 +79,7 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              size="large"
+              size="small"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -127,7 +127,7 @@ function ResponsiveAppBar() {
             <img
               src={logo}
               alt="Marijuana Leaf Logo"
-              style={{ height: "60px", marginRight: "8px" }}
+              style={{ height: "60px", marginRight: "0px" }}
             />
           </Box>
           <Typography
@@ -141,9 +141,11 @@ function ResponsiveAppBar() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontSize: { xs: "16px", sm: "26px" },
+              letterSpacing: ".1rem",
+              color: "#D90368",
               textDecoration: "none",
+              paddingRight: { xs: 3, sm: 6 },
             }}
           >
             Wake-N-Bake
