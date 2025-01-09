@@ -8,3 +8,7 @@ Navbar {
     -remove link formatting
     -replace logo
 }
+
+Add Batch {
+    -get recipe name text to display after option selection
+}

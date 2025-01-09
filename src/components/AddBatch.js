@@ -99,11 +99,12 @@ const AddBatch = () => {
 
     // IF THE RECIPE NAME DROPDOWN IS CHANGED
     if (name === "recipeName") {
-      // FIND THE RECIPE NAME BASED ON THE SELECTED ID
+      // FIND THE SELECTED RECIPE BASED ON THE ID
       const selectedRecipe = recipes.find((recipe) => recipe.id === value);
       setBatch((prev) => ({
         ...prev,
-        recipeName: selectedRecipe ? selectedRecipe.name : value, // STORE THE NAME, NOT THE ID
+        recipeName: selectedRecipe ? selectedRecipe.name : "", // STORE THE NAME FOR DISPLAY
+        recipeId: selectedRecipe ? selectedRecipe.id : "", // STORE THE ID FOR SUBMISSION
       }));
     } else {
       // UPDATE OTHER FIELDS AS USUAL
@@ -141,6 +142,7 @@ const AddBatch = () => {
       // PATCH THE BATCH FIELDS FIRST (EXCLUDING DOSAGE)
       const batchWithoutDosage = { ...batch };
       delete batchWithoutDosage.dosage; // REMOVE DOSAGE TO SAVE IT SEPARATELY
+      delete batchWithoutDosage.recipeName; // REMOVE recipeName TO AVOID DUPLICATES
       await update(newBatchRef, batchWithoutDosage); // UPDATE THE BATCH FIELDS
 
       // STORE EACH DOSAGE UNDER THE `dosage` FIELD OF THE NEW BATCH
@@ -151,6 +153,7 @@ const AddBatch = () => {
       setSuccess(true);
       setBatch({
         recipeName: "",
+        recipeId: "",
         quantity: "",
         date: "",
         dosage: [],
@@ -164,7 +167,38 @@ const AddBatch = () => {
 
   return (
     <Box
-      sx={{ maxWidth: 500, margin: "auto", marginTop: "20px", padding: "16px" }}
+      sx={{
+        maxWidth: 500,
+        margin: "auto",
+        marginTop: "20px",
+        padding: "16px",
+        color: "lightslategray", // Standardize font color for all text
+        "& .MuiFormLabel-root": {
+          color: "lightslategray", // Label color
+        },
+        "& .MuiInputBase-root": {
+          color: "lightslategray", // Input text color
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: "gray", // Outline color
+        },
+        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "black", // Hover border color
+        },
+        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+          {
+            borderColor: "black", // Focused border color
+          },
+        "& .MuiSelect-select": {
+          color: "lightslategray", // Select dropdown text color
+        },
+        "& .MuiMenuItem-root": {
+          color: "lightslategray", // Dropdown menu item color
+        },
+        "& .MuiMenuItem-root:hover": {
+          backgroundColor: "lightgray", // Dropdown menu hover background
+        },
+      }}
     >
       <Typography variant="h5" textAlign="center" gutterBottom>
         Add a New Batch
@@ -179,7 +213,7 @@ const AddBatch = () => {
               <Select
                 labelId="recipe-name-label"
                 name="recipeName"
-                value={batch.recipeName}
+                value={batch.recipeId}
                 onChange={handleChange}
                 label="Recipe Name"
               >
@@ -214,14 +248,24 @@ const AddBatch = () => {
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ display: "none" }}>
             <TextField
               fullWidth
               label="Employee ID"
               name="employeeId"
               value={batch.employeeId || ""}
               onChange={handleChange}
+              hidden
               disabled
+              sx={{
+                display: "none",
+                "& .MuiInputBase-root.Mui-disabled": {
+                  color: "lightslategray", // Disabled input text color
+                },
+                "& .MuiFormLabel-root.Mui-disabled": {
+                  color: "lightslategray", // Disabled label text color
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -281,14 +325,16 @@ const AddBatch = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={2}>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={() => handleRemoveDosage(index)}
-                  sx={{ height: "100%" }}
-                >
-                  Remove
-                </Button>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleRemoveDosage(index)}
+                    sx={{ height: "100%" }}
+                  >
+                    Remove
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           ))}
