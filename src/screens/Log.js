@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
-import { database } from "../config/firebase";
+import { auth, database } from "../config/firebase";
 import {
   CircularProgress,
   Card,
@@ -78,6 +78,41 @@ const Log = () => {
   const [employees, setEmployees] = useState({}); // Map employee IDs to names
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [user, setUser] = useState(null);
+  const [activeFilter, setActiveFilter] = useState(null);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
+
+  const filterMyBatches = () => {
+    if (user) {
+      const myBatches = recipes.filter(
+        (recipe) => recipe.employeeId === user.uid
+      );
+      setFilteredRecipes(myBatches);
+      setActiveFilter("myBatches"); // Set active filter
+    }
+  };
+
+  const showAllBatches = () => {
+    setFilteredRecipes(recipes);
+    setActiveFilter(null); // Clear active filter
+  };
+
+  const toggleMyBatchesFilter = () => {
+    if (activeFilter === "myBatches") {
+      // If the filter is active, reset to show all
+      setFilteredRecipes(recipes);
+      setActiveFilter(null); // Clear the active filter
+    } else {
+      // If the filter is not active, apply it
+      if (user) {
+        const myBatches = recipes.filter(
+          (recipe) => recipe.employeeId === user.uid
+        );
+        setFilteredRecipes(myBatches);
+        setActiveFilter("myBatches"); // Set the active filter
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +126,7 @@ const Log = () => {
         const employeesSnapshot = await get(employeesRef);
 
         if (batchesSnapshot.exists()) {
-          setRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
+          setFilteredRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
         } else {
           setError("No batches available");
         }
@@ -112,6 +147,12 @@ const Log = () => {
     };
 
     fetchData();
+
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
@@ -147,9 +188,20 @@ const Log = () => {
       >
         <Button
           variant="contained"
-          color="primary"
           size="small" // Use Material-UI's size prop for smaller buttons
-          sx={{ fontSize: "12px", padding: "4px 12px" }} // Further customize size
+          sx={{
+            fontSize: "12px",
+            padding: "4px 12px",
+
+            backgroundColor:
+              activeFilter === "myBatches" ? "#FF007F" : "#E0E0E0",
+            color: activeFilter === "myBatches" ? "white" : "black",
+            "&:hover": {
+              backgroundColor:
+                activeFilter === "myBatches" ? "#E6006E" : "#C0C0C0",
+            },
+          }}
+          onClick={toggleMyBatchesFilter}
         >
           My Batches
         </Button>
@@ -157,7 +209,14 @@ const Log = () => {
           variant="contained"
           color="secondary"
           size="small"
-          sx={{ fontSize: "12px", padding: "4px 12px" }}
+          sx={{
+            fontSize: "12px",
+            padding: "4px 12px",
+            backgroundColor: "#4c7fa3",
+            "&:hover": {
+              backgroundColor: "#FF007F",
+            },
+          }}
         >
           Earliest
         </Button>
@@ -165,13 +224,20 @@ const Log = () => {
           variant="contained"
           color="success"
           size="small"
-          sx={{ fontSize: "12px", padding: "4px 12px" }}
+          sx={{
+            fontSize: "12px",
+            padding: "4px 12px",
+            backgroundColor: "#11d272",
+            "&:hover": {
+              backgroundColor: "#FF007F",
+            },
+          }}
         >
           Button 3
         </Button>
       </Box>
       <Grid container spacing={3}>
-        {recipes.map((recipe, index) => (
+        {filteredRecipes.map((recipe, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <StyledCard>
               {/* Dosage Badges */}

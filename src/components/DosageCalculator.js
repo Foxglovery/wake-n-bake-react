@@ -32,6 +32,7 @@ const DosageCalculator = () => {
         maxWidth: "500px",
         margin: "auto",
         marginTop: "20px",
+        minHeight: "600px",
         display: "flex",
         flexDirection: "column",
         padding: "16px",

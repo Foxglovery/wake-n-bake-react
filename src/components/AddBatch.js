@@ -179,24 +179,39 @@ const AddBatch = () => {
         "& .MuiInputBase-root": {
           color: "#FF007F", // Input text color
         },
-        "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "gray", // Outline color
-        },
-        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-          borderColor: "black", // Hover border color
-        },
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-          {
-            borderColor: "black", // Focused border color
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": {
+            borderColor: "#FF007F", // Default border color
           },
-        "& .MuiSelect-select": {
-          color: "#FF007F", // Select dropdown text color
-        },
-        "& .MuiMenuItem-root": {
-          color: "lightslategray", // Dropdown menu item color
-        },
-        "& .MuiMenuItem-root:hover": {
-          backgroundColor: "lightgray", // Dropdown menu hover background
+          "& .MuiInputBase-input::placeholder": {
+            color: "#FF007F", // Change placeholder color
+            opacity: 1, // Ensure the opacity is visible (can be adjusted)
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "#bf08bb",
+          },
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: "black", // Focused border color
+            },
+          "& .MuiSelect-select": {
+            color: "#FF007F", // Select dropdown text color
+          },
+          "& .MuiMenuItem-root": {
+            color: "lightslategray", // Dropdown menu item color
+          },
+          "& .MuiMenuItem-root:hover": {
+            backgroundColor: "lightgray", // Dropdown menu hover background
+          },
+          "&:hover fieldset": {
+            borderColor: "#bf08bb", // Hover border color
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#bf08bb", // Focused border color
+          },
+          "& .MuiInputBase-input": {
+            color: "#FF007F", // Input text color
+          },
         },
       }}
     >
@@ -221,6 +236,33 @@ const AddBatch = () => {
                 value={batch.recipeId}
                 onChange={handleChange}
                 label="Recipe Name"
+                sx={{
+                  "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#bf08bb",
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: "white", // Change placeholder color
+                    opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#FF007F", // Default border color
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#11d272", // Hover border color
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#11d272", // Focused border color
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "white", // Input text color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#11d272", // Hover border color
+                  },
+                }}
               >
                 {recipes.map((recipe) => (
                   <MenuItem key={recipe.id} value={recipe.id}>
@@ -239,6 +281,34 @@ const AddBatch = () => {
               value={batch.quantity}
               onChange={handleChange}
               required
+              sx={{
+                "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#11d272",
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "white", // Change placeholder color
+                  opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#FF007F", // Default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#11d272", // Hover border color
+                  },
+
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#11d272", // Focused border color
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: "white", // Input text color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bf08bb", // Hover border color
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -249,8 +319,32 @@ const AddBatch = () => {
               type="date"
               value={batch.date}
               onChange={handleChange}
-              InputLabelProps={{ shrink: true }}
-              required
+              InputLabelProps={{
+                shrink: true,
+                sx: {
+                  color: "#FF007F", // Default label color
+                  "&.Mui-focused": {
+                    color: "#bf08bb", // Focused label color
+                  },
+                },
+              }}
+              sx={{
+                "& .MuiInputBase-input": {
+                  color: "#FF007F", // Input text color
+                },
+
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#FF007F", // Default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#bf08bb", // Hover border color
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#bf08bb", // Focused border color
+                  },
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12} sx={{ display: "none" }}>
@@ -281,6 +375,33 @@ const AddBatch = () => {
               value={batch.orderName}
               onChange={handleChange}
               required
+              sx={{
+                "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#11d272",
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "white", // Change placeholder color
+                  opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#FF007F", // Default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#11d272", // Hover border color
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#11d272", // Focused border color
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: "white", // Input text color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#11d272", // Hover border color
+                },
+              }}
             />
           </Grid>
 
