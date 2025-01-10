@@ -3,6 +3,7 @@ import {
   CircularProgress,
   createTheme,
   CssBaseline,
+  GlobalStyles,
   ThemeProvider,
 } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -58,6 +59,17 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
+      <GlobalStyles
+        styles={{
+          "*": {
+            scrollbarWidth: "none", // Firefox
+            msOverflowStyle: "none", // Internet Explorer
+          },
+          "*::-webkit-scrollbar": {
+            display: "none", // Chrome, Safari, Opera
+          },
+        }}
+      />
       <div>
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
