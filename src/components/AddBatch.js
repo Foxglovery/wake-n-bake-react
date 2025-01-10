@@ -174,10 +174,10 @@ const AddBatch = () => {
         padding: "16px",
         color: "lightslategray", // Standardize font color for all text
         "& .MuiFormLabel-root": {
-          color: "lightslategray", // Label color
+          color: "#FF007F", // Label color
         },
         "& .MuiInputBase-root": {
-          color: "lightslategray", // Input text color
+          color: "#FF007F", // Input text color
         },
         "& .MuiOutlinedInput-notchedOutline": {
           borderColor: "gray", // Outline color
@@ -200,7 +200,12 @@ const AddBatch = () => {
         },
       }}
     >
-      <Typography variant="h5" textAlign="center" gutterBottom>
+      <Typography
+        variant="h5"
+        textAlign="center"
+        gutterBottom
+        color={"#FF007F"}
+      >
         Add a New Batch
       </Typography>
       {success && <Alert severity="success">Batch added successfully!</Alert>}
@@ -339,14 +344,16 @@ const AddBatch = () => {
             </Grid>
           ))}
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddDosage}
-              sx={{ marginTop: 2 }}
-            >
-              Add Dosage
-            </Button>
+            <Box display={"flex"} justifyContent={"center"}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddDosage}
+                sx={{ marginTop: 2 }}
+              >
+                Add Dosage
+              </Button>
+            </Box>
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>

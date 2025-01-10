@@ -72,11 +72,12 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
+              fontFamily: "Spicy Rice",
+              fontWeight: 100,
               letterSpacing: ".3rem",
-              color: "#FF007F",
+              color: "white",
               textDecoration: "none",
+              fontSize: "42px",
             }}
           >
             Wake-N-Bake
@@ -92,12 +93,16 @@ function ResponsiveAppBar() {
               color="inherit"
               sx={{
                 color: "#FF007F",
+                padding: 0,
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
               }}
             >
               <img
                 src={logo}
                 alt="Marijuana Leaf Logo"
-                style={{ height: "45px", marginRight: "24px" }} //margin here is holding app title in center
+                style={{ height: "45px", marginRight: "14px" }} //margin here is holding app title in center
               />
             </IconButton>
             <Menu
@@ -146,13 +151,15 @@ function ResponsiveAppBar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              fontSize: { xs: "16px", sm: "26px" },
+              fontFamily: "Spicy Rice",
+              fontWeight: 100,
+              fontSize: { xs: "24px", sm: "26px" },
               letterSpacing: ".1rem",
               color: "black",
               textDecoration: "none",
               paddingRight: { xs: 3, sm: 6 },
+              position: "relative",
+              top: "1px",
             }}
           >
             Wake-N-Bake
@@ -182,7 +189,7 @@ function ResponsiveAppBar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
-                  alt="Remy Sharp"
+                  alt="Admin Icon of suited man with glasses"
                   src={admin}
                   sx={{ backgroundColor: "#FF007F" }}
                 />

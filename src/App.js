@@ -30,7 +30,7 @@ const darkTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Roboto, sans-serif", // Material Design default font
+    fontFamily: "Spicy Rice", // Material Design default font
   },
 });
 

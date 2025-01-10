@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   Box,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -26,8 +27,10 @@ const DosageBadge = styled(Box)(({ theme }) => ({
 const StyledCard = styled(Card)(({ theme }) => ({
   position: "relative",
   display: "flex",
+  borderRadius: "6px",
   flexDirection: "column",
   justifyContent: "space-between",
+  backgroundColor: theme.palette.Card,
   boxShadow: theme.shadows[3],
   "&:hover": {
     boxShadow: theme.shadows[6],
@@ -123,7 +126,41 @@ const Log = () => {
   }
 
   return (
-    <Box sx={{ marginTop: "64px", padding: "16px" }}>
+    <Box sx={{ padding: "16px" }}>
+      {/* Sorting Buttons */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2, // Add spacing between the buttons
+          marginBottom: 3, // Space below the buttons
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          size="small" // Use Material-UI's size prop for smaller buttons
+          sx={{ fontSize: "12px", padding: "4px 12px" }} // Further customize size
+        >
+          My Batches
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          sx={{ fontSize: "12px", padding: "4px 12px" }}
+        >
+          Earliest
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          size="small"
+          sx={{ fontSize: "12px", padding: "4px 12px" }}
+        >
+          Button 3
+        </Button>
+      </Box>
       <Grid container spacing={3}>
         {recipes.map((recipe, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -139,7 +176,7 @@ const Log = () => {
                         top: idx === 0 ? 0 : "unset", // Top-right for first badge
                         left: idx === 1 ? 0 : "unset", // Top-left for second badge
                         right: idx === 0 ? 0 : "unset", // Top-right for first badge
-                        backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
+                        backgroundColor: idx === 0 ? "#1dc175" : "#bf08bb",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg
@@ -154,7 +191,7 @@ const Log = () => {
                         top: idx === 0 ? 0 : "unset", // Top-right for first badge
                         left: idx === 1 ? 0 : "unset", // Top-left for second badge
                         right: idx === 0 ? 0 : "unset", // Top-right for first badge
-                        backgroundColor: idx === 0 ? "#479910" : "#9D0D7E",
+                        backgroundColor: idx === 0 ? "#1dc175" : "#bf08bb",
                       }}
                     >
                       {dose.cannabinoid}: {dose.mg}mg
@@ -172,7 +209,7 @@ const Log = () => {
                   sx={{
                     marginTop: { xs: 2, sm: 2, md: 2 },
                     fontSize: { xs: "18px", sm: "18px", md: "20px" }, // Adjust font size for screens
-                    fontWeight: "bold",
+
                     mb: 1,
                     textAlign: { xs: "center", sm: "center", md: "center" },
                   }}
@@ -192,7 +229,7 @@ const Log = () => {
                     gap: { xs: "8px", md: "16px" }, // Adjust gap for smaller screens
                     marginBottom: { xs: 1, md: 1, lg: 1 },
                     backgroundColor: "#390040",
-                    borderRadius: "6px",
+                    borderRadius: "3px",
                   }}
                 >
                   {/* Quantity El */}
@@ -200,7 +237,7 @@ const Log = () => {
                     variant="body2"
                     color="text.secondary"
                     paddingLeft={1}
-                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                    sx={{ fontSize: { xs: "16px", md: "18px" } }} // Smaller font for mobile
                   >
                     Quantity: {recipe.quantity || "N/A"}
                   </Typography>
@@ -210,7 +247,7 @@ const Log = () => {
                     variant="body2"
                     color="text.secondary"
                     paddingRight={1}
-                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                    sx={{ fontSize: { xs: "16px", md: "18px" } }} // Smaller font for mobile
                   >
                     {formatDate(recipe.date) || "N/A"}
                   </Typography>
@@ -224,7 +261,7 @@ const Log = () => {
                     alignItems: { xs: "center", sm: "center", md: "center" },
                     marginBottom: { xs: 2, sm: 2, md: 2 },
                     backgroundColor: "#004346",
-                    borderRadius: "6px",
+                    borderRadius: "3px",
                   }}
                 >
                   {/* Order El */}
@@ -232,7 +269,10 @@ const Log = () => {
                     variant="body2"
                     color="text.secondary"
                     paddingLeft={1}
-                    sx={{ fontSize: { xs: "12px", md: "14px" } }} // Smaller font for mobile
+                    sx={{
+                      fontSize: { xs: "16px", md: "18px" },
+                      fontWeight: 100,
+                    }} // Smaller font for mobile
                   >
                     Order: {recipe.orderName || "N/A"}
                   </Typography>
@@ -243,7 +283,7 @@ const Log = () => {
                     color="text.secondary"
                     paddingRight={1}
                     sx={{
-                      fontSize: { xs: "12px", md: "14px" }, // Adjust font size for mobile/desktop
+                      fontSize: { xs: "16px", md: "18px" }, // Adjust font size for mobile/desktop
                     }}
                   >
                     {employees[recipe.employeeId] || "Unknown"}
