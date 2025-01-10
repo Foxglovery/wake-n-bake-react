@@ -52,7 +52,7 @@ function ResponsiveAppBar() {
         maxWidth="xl"
         sx={{
           background: "rgb(17,210,114)", // Fallback background color
-          background: `linear-gradient(0deg, rgba(17,210,114,1) 0%, rgba(29,193,117,1) 6%, rgba(56,150,157,1) 47%, rgba(76,127,163,1) 59%, rgba(191,8,187,1) 100%)`,
+          background: `linear-gradient(0deg, rgba(17,210,114,1) 0%, rgba(29,193,117,1) 6%, rgba(56,150,157,1) 47%, rgba(76,127,163,1) 59%, #bf08bb 100%)`,
         }}
       >
         <Toolbar disableGutters>
@@ -173,6 +173,8 @@ function ResponsiveAppBar() {
                 to={page.link}
                 sx={{
                   my: 2,
+                  position: "relative",
+                  top: "9px",
                   color: "white",
                   display: "block",
                   textDecoration: "none", // Ensure no underline

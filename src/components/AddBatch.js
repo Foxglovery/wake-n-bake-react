@@ -190,7 +190,7 @@ const AddBatch = () => {
             borderColor: "black", // Focused border color
           },
         "& .MuiSelect-select": {
-          color: "lightslategray", // Select dropdown text color
+          color: "#FF007F", // Select dropdown text color
         },
         "& .MuiMenuItem-root": {
           color: "lightslategray", // Dropdown menu item color
@@ -283,65 +283,102 @@ const AddBatch = () => {
               required
             />
           </Grid>
+
           {batch.dosage.map((dose, index) => (
-            <Grid container spacing={2} key={index}>
-              <Grid item xs={5}>
-                <FormControl fullWidth required>
-                  <InputLabel id={`dosage-oil-label-${index}`}>
-                    Cannabinoid
-                  </InputLabel>
-                  <Select
-                    labelId={`dosage-oil-label-${index}`}
-                    name="cannabinoid"
-                    value={dose.cannabinoid}
-                    onChange={(e) =>
-                      handleDosageChange(index, "cannabinoid", e.target.value)
-                    }
-                    label="Cannabinoid"
-                  >
-                    {oilOptions.map((oil) => (
-                      <MenuItem key={oil} value={oil}>
-                        {oil}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginLeft: "55px",
+                marginTop: "16px",
+              }}
+            >
+              <Grid container spacing={2} key={index} sx={{ maxWidth: "100%" }}>
+                <Grid item xs={12} sm={3}>
+                  <FormControl fullWidth required>
+                    <InputLabel id={`dosage-oil-label-${index}`}>
+                      Cannabinoid
+                    </InputLabel>
+                    <Select
+                      labelId={`dosage-oil-label-${index}`}
+                      name="cannabinoid"
+                      value={dose.cannabinoid}
+                      onChange={(e) =>
+                        handleDosageChange(index, "cannabinoid", e.target.value)
+                      }
+                      label="Cannabinoid"
+                      MenuProps={{
+                        anchorOrigin: {
+                          vertical: "bottom",
+                          horizontal: "left", // Align dropdown with the left edge
+                        },
+                        transformOrigin: {
+                          vertical: "top",
+                          horizontal: "left", // Grow from the left edge
+                        },
+                        PaperProps: {
+                          sx: {
+                            maxWidth: "100%", // Limit dropdown width to the screen width
+                            left: "0 !important", // Reset dropdown position
+                            overflowX: "auto", // Allow scrolling if content overflows horizontally
+                            zIndex: 1302, // Ensure the dropdown is above other elements
+                          },
+                        },
+                      }}
+                    >
+                      {oilOptions.map((oil) => (
+                        <MenuItem key={oil} value={oil}>
+                          {oil}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={5}>
+                  <FormControl fullWidth required>
+                    <InputLabel id={`dosage-mg-label-${index}`}>
+                      Milligrams
+                    </InputLabel>
+                    <Select
+                      labelId={`dosage-mg-label-${index}`}
+                      name="mg"
+                      value={dose.mg}
+                      onChange={(e) =>
+                        handleDosageChange(index, "mg", e.target.value)
+                      }
+                      label="Milligrams"
+                      MenuProps={{
+                        sx: {
+                          "& .MuiPaper-root": {
+                            maxWidth: "calc(100vw - 32px)", // Prevent dropdown from exceeding screen width
+                            overflowX: "auto", // Allow horizontal scroll if needed
+                          },
+                        },
+                      }}
+                    >
+                      {milligramOptions.map((mg) => (
+                        <MenuItem key={mg} value={mg}>
+                          {mg} mg
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleRemoveDosage(index)}
+                      sx={{ height: "100%", left: "50px" }}
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={5}>
-                <FormControl fullWidth required>
-                  <InputLabel id={`dosage-mg-label-${index}`}>
-                    Milligrams
-                  </InputLabel>
-                  <Select
-                    labelId={`dosage-mg-label-${index}`}
-                    name="mg"
-                    value={dose.mg}
-                    onChange={(e) =>
-                      handleDosageChange(index, "mg", e.target.value)
-                    }
-                    label="Milligrams"
-                  >
-                    {milligramOptions.map((mg) => (
-                      <MenuItem key={mg} value={mg}>
-                        {mg} mg
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={2}>
-                <Box>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => handleRemoveDosage(index)}
-                    sx={{ height: "100%" }}
-                  >
-                    Remove
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
+            </Box>
           ))}
           <Grid item xs={12}>
             <Box display={"flex"} justifyContent={"center"}>
@@ -349,15 +386,28 @@ const AddBatch = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleAddDosage}
-                sx={{ marginTop: 2 }}
+                sx={{
+                  marginTop: 2,
+                  //backgroundColor: "#bf08bb",
+                  backgroundColor: "#11d272",
+                }}
               >
                 Add Dosage
               </Button>
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Add Batch
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{
+                //backgroundColor: "#11d272",
+                backgroundColor: "#bf08bb",
+              }}
+            >
+              Submit Batch
             </Button>
           </Grid>
         </Grid>

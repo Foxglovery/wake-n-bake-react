@@ -15,10 +15,11 @@ import { styled } from "@mui/system";
 // Styled Badge for Dosage
 const DosageBadge = styled(Box)(({ theme }) => ({
   position: "absolute",
-  padding: "4px 8px",
+  padding: "2px 6px",
   borderRadius: "4px",
-  fontSize: "12px",
+  fontSize: "14px",
   fontWeight: "bold",
+  fontFamily: "Newsreader",
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
 }));
@@ -259,7 +260,7 @@ const Log = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: { xs: "center", sm: "center", md: "center" },
-                    marginBottom: { xs: 2, sm: 2, md: 2 },
+                    marginBottom: { xs: 0, sm: 2, md: 2 },
                     backgroundColor: "#004346",
                     borderRadius: "3px",
                   }}
