@@ -6,7 +6,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -49,7 +48,13 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="fixed">
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{
+          background: "rgb(17,210,114)", // Fallback background color
+          background: `linear-gradient(0deg, rgba(17,210,114,1) 0%, rgba(29,193,117,1) 6%, rgba(56,150,157,1) 47%, rgba(76,127,163,1) 59%, rgba(191,8,187,1) 100%)`,
+        }}
+      >
         <Toolbar disableGutters>
           {/* Desktop Logo */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -70,7 +75,7 @@ function ResponsiveAppBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "#FF007F",
               textDecoration: "none",
             }}
           >
@@ -131,6 +136,7 @@ function ResponsiveAppBar() {
 
           {/* Mobile Logo */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}></Box>
+          {/* Page Title */}
           <Typography
             variant="h5"
             noWrap
@@ -144,7 +150,7 @@ function ResponsiveAppBar() {
               fontWeight: 700,
               fontSize: { xs: "16px", sm: "26px" },
               letterSpacing: ".1rem",
-              color: "#FF007F",
+              color: "black",
               textDecoration: "none",
               paddingRight: { xs: 3, sm: 6 },
             }}
@@ -206,7 +212,7 @@ function ResponsiveAppBar() {
                     sx={{
                       textAlign: "center",
                       textDecoration: "none", // Removes underline
-                      color: "inherit", // Ensure it inherits the default color
+                      color: "#FF007F", // Ensure it inherits the default color
                       "&:hover": {
                         color: "primary.main", // Optional: Change text color on hover
                       },

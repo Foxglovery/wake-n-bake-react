@@ -8,11 +8,8 @@ import {
   Typography,
   Grid,
   Box,
-  Avatar,
-  Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import Center from "../components/utils/Center";
 
 // Styled Badge for Dosage
 const DosageBadge = styled(Box)(({ theme }) => ({
