@@ -52,7 +52,7 @@ function ResponsiveAppBar() {
         maxWidth="xl"
         sx={{
           background: "rgb(17,210,114)", // Fallback background color
-          background: `linear-gradient(0deg, rgba(17,210,114,1) 0%, rgba(29,193,117,1) 6%, rgba(56,150,157,1) 47%, rgba(76,127,163,1) 59%, #bf08bb 100%)`,
+          background: `linear-gradient(0deg, rgba(17,210,114,1) 0%, #1dc175 6%, #38969d 47%, rgba(76,127,163,1) 59%, #bf08bb 100%)`,
         }}
       >
         <Toolbar disableGutters>
@@ -75,7 +75,7 @@ function ResponsiveAppBar() {
               fontFamily: "Spicy Rice",
               fontWeight: 100,
               letterSpacing: ".3rem",
-              color: "white",
+              color: "black",
               textDecoration: "none",
               fontSize: "42px",
             }}
@@ -167,6 +167,7 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
+              // DESKTOP SIZE PAGE LINKS
               <Button
                 key={page.name}
                 component={Link}
@@ -175,10 +176,10 @@ function ResponsiveAppBar() {
                   my: 2,
                   position: "relative",
                   top: "9px",
-                  color: "white",
+                  color: "black",
                   display: "block",
                   textDecoration: "none", // Ensure no underline
-                  "&:hover": { color: "white" }, // Prevent color change on hover
+                  "&:hover": { color: "white", backgroundColor: "transparent" }, // Prevent color change on hover
                   "&:focus": { color: "white" }, // Prevent color change on focus
                 }}
               >

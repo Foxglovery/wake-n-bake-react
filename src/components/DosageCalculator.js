@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Typography, Grid } from "@mui/material";
-
+import tentacledBaker from "../assets/tentacle-baker.png";
 const DosageCalculator = () => {
   const [numEdibles, setNumEdibles] = useState("");
   const [concentration, setConcentration] = useState("");
@@ -28,17 +28,50 @@ const DosageCalculator = () => {
   return (
     <Box
       sx={{
+        position: "relative", // Ensure the pseudo-element is positioned correctly
         maxWidth: "500px",
         margin: "auto",
         marginTop: "20px",
+        display: "flex",
+        flexDirection: "column",
         padding: "16px",
-        backgroundColor: "black",
+        backgroundColor: "rgba(0, 0, 0, 0.7)", // Card background
         borderRadius: "8px",
         boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
+        color: "white",
+        overflow: "hidden", // Prevent the pseudo-element from spilling out
+        zIndex: 1, // Ensure the content is above the background
+        "::before": {
+          content: '""', // Required for pseudo-elements
+          position: "absolute",
+          top: 20,
+          left: 0,
+          right: 15,
+          bottom: 0,
+          backgroundImage: `url(${tentacledBaker})`, // Background image
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.3, // Adjust the opacity of the background image
+          zIndex: -1, // Place it behind the card content
+        },
       }}
     >
-      <Typography variant="h5" textAlign="center" gutterBottom>
+      <Typography
+        variant="h4"
+        textAlign="center"
+        gutterBottom
+        sx={{ color: "#FF007F" }}
+      >
         Dosage Calculator
+      </Typography>
+      <Typography
+        variant="h7"
+        textAlign="center"
+        gutterBottom
+        sx={{ color: "#FF007F" }}
+      >
+        Enter the relevant information and let the tentacular baker figure out
+        how many units of the good stuff you will need.
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -50,6 +83,30 @@ const DosageCalculator = () => {
             onChange={handleInputChange(setNumEdibles)}
             variant="outlined"
             placeholder="Enter number of edibles"
+            sx={{
+              "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#bf08bb",
+              },
+              "& .MuiInputBase-input::placeholder": {
+                color: "white", // Change placeholder color
+                opacity: 1, // Ensure the opacity is visible (can be adjusted)
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#FF007F", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bf08bb", // Hover border color
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#bf08bb", // Focused border color
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "white", // Input text color
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -61,6 +118,26 @@ const DosageCalculator = () => {
             onChange={handleInputChange(setConcentration)}
             variant="outlined"
             placeholder="Enter oil concentration (e.g., 50)"
+            sx={{
+              "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#11d272",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#FF007F", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#11d272", // Hover border color
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#11d272", // Focused border color
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "white", // Input text color
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -72,6 +149,26 @@ const DosageCalculator = () => {
             onChange={handleInputChange(setDesiredDosage)}
             variant="outlined"
             placeholder="Enter desired dosage per edible"
+            sx={{
+              "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#bf08bb",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#FF007F", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#bf08bb", // Hover border color
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#bf08bb", // Focused border color
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "white", // Input text color
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -85,6 +182,26 @@ const DosageCalculator = () => {
               readOnly: true,
             }}
             placeholder="Calculated oil needed will appear here"
+            sx={{
+              "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#11d272",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#FF007F", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#11d272", // Hover border color
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#11d272", // Focused border color
+                },
+              },
+              "& .MuiInputBase-input": {
+                color: "white", // Input text color
+              },
+            }}
           />
         </Grid>
       </Grid>

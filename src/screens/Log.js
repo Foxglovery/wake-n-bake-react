@@ -10,8 +10,16 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/system";
-
+import { height, styled, width } from "@mui/system";
+import CalendarIcon from "../components/IconService/CalenderIcon";
+import CountIcon from "../components/IconService/CountIcon";
+import OrderIcon from "../components/IconService/OrderIcon";
+import BakerIcon from "../components/IconService/BakerIcon";
+// import counter from "../assets/";
+// import employeeIcon from "../assets/chef-svgrepo-com.svg";
+// import orderIcon from "../assets//delivery-trolley.svg";
+// import dateIcon from "../assets/calender-icon.svg";
+// import CalendarIcon from "../components/IconService/CalenderIcon";
 // Styled Badge for Dosage
 const DosageBadge = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -19,7 +27,7 @@ const DosageBadge = styled(Box)(({ theme }) => ({
   borderRadius: "4px",
   fontSize: "14px",
   fontWeight: "bold",
-  fontFamily: "Newsreader",
+  fontFamily: "BioRhyme",
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
 }));
@@ -209,8 +217,8 @@ const Log = () => {
                   variant="h5"
                   sx={{
                     marginTop: { xs: 2, sm: 2, md: 2 },
-                    fontSize: { xs: "18px", sm: "18px", md: "20px" }, // Adjust font size for screens
-
+                    fontSize: { xs: "18px", sm: "18px", md: "20px" },
+                    fontFamily: "BioRhyme",
                     mb: 1,
                     textAlign: { xs: "center", sm: "center", md: "center" },
                   }}
@@ -222,73 +230,123 @@ const Log = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: {
-                      xs: "space-between",
-                      md: "space-between",
-                      lg: "space-between",
-                    },
-                    gap: { xs: "8px", md: "16px" }, // Adjust gap for smaller screens
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: { xs: "8px", md: "16px" },
                     marginBottom: { xs: 1, md: 1, lg: 1 },
                     backgroundColor: "#390040",
                     borderRadius: "3px",
+                    padding: "4px 8px",
                   }}
                 >
-                  {/* Quantity El */}
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingLeft={1}
-                    sx={{ fontSize: { xs: "16px", md: "18px" } }} // Smaller font for mobile
+                  {/* Quantity */}
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    Quantity: {recipe.quantity || "N/A"}
-                  </Typography>
+                    <CountIcon width="26px" height="auto" />
+                    {/* <img
+                      alt="quantity"
+                      src={counter}
+                      style={{ width: "28px", height: "auto" }}
+                    /> */}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontFamily: "BioRhyme",
+                        fontWeight: 300,
+                      }}
+                    >
+                      {recipe.quantity || "N/A"}
+                    </Typography>
+                  </Box>
 
-                  {/* Date El */}
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={1}
-                    sx={{ fontSize: { xs: "16px", md: "18px" } }} // Smaller font for mobile
+                  {/* Date */}
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    {formatDate(recipe.date) || "N/A"}
-                  </Typography>
+                    <CalendarIcon width="25px" height="auto" />
+                    {/* <img
+                      alt="date"
+                      src={dateIcon} // Replace with the correct path to your date icon
+                      style={{ width: "24px", height: "auto" }} // Adjust size as needed
+                    /> */}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontFamily: "BioRhyme",
+                        fontWeight: 300,
+                      }}
+                    >
+                      {formatDate(recipe.date) || "N/A"}
+                    </Typography>
+                  </Box>
                 </Box>
 
-                {/* Order and Employee  */}
+                {/* Order and Employee */}
                 <Box
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: { xs: "center", sm: "center", md: "center" },
-                    marginBottom: { xs: 0, sm: 2, md: 2 },
+                    alignItems: "center",
                     backgroundColor: "#004346",
                     borderRadius: "3px",
+                    padding: "4px 8px",
+                    flexWrap: "wrap",
                   }}
                 >
-                  {/* Order El */}
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingLeft={1}
-                    sx={{
-                      fontSize: { xs: "16px", md: "18px" },
-                      fontWeight: 100,
-                    }} // Smaller font for mobile
+                  {/* Order */}
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    Order: {recipe.orderName || "N/A"}
-                  </Typography>
+                    <OrderIcon width="26px" height="auto" />
+                    {/* <img
+                      alt="order"
+                      src={orderIcon}
+                      style={{ width: "24px", height: "auto" }}
+                    /> */}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontFamily: "BioRhyme",
+                        fontWeight: 300,
+                      }}
+                    >
+                      {recipe.orderName || "N/A"}
+                    </Typography>
+                  </Box>
 
-                  {/* Employee El */}
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    paddingRight={1}
+                  {/* Employee */}
+                  <Box
                     sx={{
-                      fontSize: { xs: "16px", md: "18px" }, // Adjust font size for mobile/desktop
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0px",
                     }}
                   >
-                    {employees[recipe.employeeId] || "Unknown"}
-                  </Typography>
+                    <BakerIcon width="26px" height="auto" />
+                    {/* <img
+                      alt="employee"
+                      src={employeeIcon}
+                      style={{ width: "24px", height: "auto" }}
+                    /> */}
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontFamily: "BioRhyme",
+                        fontWeight: 300,
+                      }}
+                    >
+                      {employees[recipe.employeeId] || "Unknown"}
+                    </Typography>
+                  </Box>
                 </Box>
               </CardContent>
             </StyledCard>
