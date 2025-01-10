@@ -16,7 +16,7 @@ import admin from "../assets/admin-icon.png";
 const pages = [
   { name: "Bake It", link: "/bakeIt" },
   { name: "Find It", link: "/findIt" },
-  { name: "Dose It", link: "/blog" },
+  { name: "Dose It", link: "/doseIt" },
 ];
 
 const settings = [

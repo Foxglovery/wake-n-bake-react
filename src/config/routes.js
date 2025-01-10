@@ -1,5 +1,6 @@
 import AddARecipe from "../screens/AddRecipe";
 import BakeIt from "../screens/BakeIt";
+import DoseIt from "../screens/DoseIt";
 import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
 import Log from "../screens/Log";
@@ -28,6 +29,12 @@ const routes = [
     path: "/bakeIt",
     component: BakeIt,
     name: "Adding a batch to the database",
+    protected: true, // if user needs to be authenticated to access this screen
+  },
+  {
+    path: "/doseIt",
+    component: DoseIt,
+    name: "Calculating the required units to meet dosage",
     protected: true, // if user needs to be authenticated to access this screen
   },
   {
