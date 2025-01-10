@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../assets/weed-leaf.png";
-
+import admin from "../assets/admin-icon.png";
 const pages = [
   { name: "Bake It", link: "/bakeIt" },
   { name: "Find It", link: "/findIt" },
@@ -85,8 +85,15 @@ function ResponsiveAppBar() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              sx={{
+                color: "#FF007F",
+              }}
             >
-              <MenuIcon />
+              <img
+                src={logo}
+                alt="Marijuana Leaf Logo"
+                style={{ height: "45px", marginRight: "24px" }} //margin here is holding app title in center
+              />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -112,7 +119,7 @@ function ResponsiveAppBar() {
                     sx={{
                       textAlign: "center",
                       textDecoration: "none",
-                      color: "white",
+                      color: "#FF007F",
                     }}
                   >
                     {page.name}
@@ -123,13 +130,7 @@ function ResponsiveAppBar() {
           </Box>
 
           {/* Mobile Logo */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <img
-              src={logo}
-              alt="Marijuana Leaf Logo"
-              style={{ height: "60px", marginRight: "0px" }}
-            />
-          </Box>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}></Box>
           <Typography
             variant="h5"
             noWrap
@@ -143,7 +144,7 @@ function ResponsiveAppBar() {
               fontWeight: 700,
               fontSize: { xs: "16px", sm: "26px" },
               letterSpacing: ".1rem",
-              color: "#D90368",
+              color: "#FF007F",
               textDecoration: "none",
               paddingRight: { xs: 3, sm: 6 },
             }}
@@ -174,7 +175,11 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={admin}
+                  sx={{ backgroundColor: "#FF007F" }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -198,7 +203,14 @@ function ResponsiveAppBar() {
                   <Typography
                     component={Link}
                     to={setting.link}
-                    sx={{ textAlign: "center", textDecoration: "none" }}
+                    sx={{
+                      textAlign: "center",
+                      textDecoration: "none", // Removes underline
+                      color: "inherit", // Ensure it inherits the default color
+                      "&:hover": {
+                        color: "primary.main", // Optional: Change text color on hover
+                      },
+                    }}
                   >
                     {setting.name}
                   </Typography>
