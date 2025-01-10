@@ -126,6 +126,7 @@ const Log = () => {
         const employeesSnapshot = await get(employeesRef);
 
         if (batchesSnapshot.exists()) {
+          setRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
           setFilteredRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
         } else {
           setError("No batches available");
@@ -194,7 +195,7 @@ const Log = () => {
             padding: "4px 12px",
 
             backgroundColor:
-              activeFilter === "myBatches" ? "#FF007F" : "#E0E0E0",
+              activeFilter === "myBatches" ? "#E0E0E0" : "#FF007F",
             color: activeFilter === "myBatches" ? "white" : "black",
             "&:hover": {
               backgroundColor:
