@@ -1,3 +1,4 @@
+import Logout from "../components/auth/Logout";
 import AddARecipe from "../screens/AddRecipe";
 import BakeIt from "../screens/BakeIt";
 import DoseIt from "../screens/DoseIt";
@@ -17,6 +18,12 @@ const routes = [
     path: "/login",
     component: Login,
     name: "Login Screen",
+    protected: false,
+  },
+  {
+    path: "/login",
+    component: Logout,
+    name: "Logout Screen",
     protected: false,
   },
   {

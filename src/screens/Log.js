@@ -39,6 +39,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: "6px",
   flexDirection: "column",
   justifyContent: "space-between",
+  minWidth: "260px",
   backgroundColor: theme.palette.Card,
   boxShadow: theme.shadows[3],
   "&:hover": {

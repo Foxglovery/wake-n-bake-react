@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,6 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../assets/weed-leaf.png";
 import admin from "../assets/admin-icon.png";
+import { signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
+
 const pages = [
   { name: "Bake It", link: "/bakeIt" },
   { name: "Find It", link: "/findIt" },
@@ -23,12 +26,13 @@ const settings = [
   { name: "Profile", link: "/profile" },
   { name: "Add A Recipe", link: "/addRecipe" },
   { name: "Dashboard", link: "/dashboard" },
-  { name: "Logout", link: "/logout" },
+  { name: "Logout", action: "logout" }, // Add an action key for logout
 ];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -44,6 +48,25 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/login"); // Redirect to login after logout
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+      });
+  };
+
+  const handleSettingClick = (setting) => {
+    if (setting.action === "logout") {
+      handleLogout(); // Trigger the logout function
+    } else {
+      navigate(setting.link); // Navigate to the provided link
+    }
+    handleCloseUserMenu(); // Close the user menu after selection
   };
 
   return (
@@ -167,20 +190,25 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              // DESKTOP SIZE PAGE LINKS
               <Button
                 key={page.name}
                 component={Link}
                 to={page.link}
+                onClick={handleCloseNavMenu}
                 sx={{
+                  textAlign: "center",
+                  textDecoration: "none",
                   my: 2,
                   position: "relative",
                   top: "9px",
                   color: "black",
                   display: "block",
-                  textDecoration: "none", // Ensure no underline
-                  "&:hover": { color: "white", backgroundColor: "transparent" }, // Prevent color change on hover
-                  "&:focus": { color: "white" }, // Prevent color change on focus
+                  backgroundColor: "transparent",
+                  "&:hover": {
+                    color: "white",
+                    backgroundColor: "transparent",
+                  },
+                  "&:focus": { color: "white" },
                 }}
               >
                 {page.name}
@@ -215,17 +243,15 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting.name}
+                  onClick={() => handleSettingClick(setting)}
+                >
                   <Typography
-                    component={Link}
-                    to={setting.link}
                     sx={{
                       textAlign: "center",
-                      textDecoration: "none", // Removes underline
-                      color: "#FF007F", // Ensure it inherits the default color
-                      "&:hover": {
-                        color: "primary.main", // Optional: Change text color on hover
-                      },
+                      textDecoration: "none",
+                      color: "#FF007F",
                     }}
                   >
                     {setting.name}
