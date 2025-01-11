@@ -124,6 +124,10 @@ const DosageCalculator = () => {
               "& .MuiInputLabel-root.Mui-focused": {
                 color: "#11d272",
               },
+              "& .MuiInputBase-input::placeholder": {
+                color: "white", // Change placeholder color
+                opacity: 1, // Ensure the opacity is visible (can be adjusted)
+              },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "#FF007F", // Default border color
@@ -154,6 +158,10 @@ const DosageCalculator = () => {
               "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
               "& .MuiInputLabel-root.Mui-focused": {
                 color: "#bf08bb",
+              },
+              "& .MuiInputBase-input::placeholder": {
+                color: "white", // Change placeholder color
+                opacity: 1, // Ensure the opacity is visible (can be adjusted)
               },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
