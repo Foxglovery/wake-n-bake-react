@@ -81,7 +81,9 @@ const Log = () => {
   const [user, setUser] = useState(null);
   const [activeFilter, setActiveFilter] = useState(null);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
-
+  const [earlyFilter, setEarlyFilter] = useState("earlyValue");
+  const [mineFilter, setMineFilter] = useState("MineValue");
+  const [b2bFilter, setb2bFilter] = useState("b2bValue");
   const filterMyBatches = () => {
     if (user) {
       const myBatches = recipes.filter(
@@ -97,11 +99,32 @@ const Log = () => {
     setActiveFilter(null); // Clear active filter
   };
 
+  // Sorting button logic
+  const toggleEarliestBatch = () => {
+    if (activeFilter === "earliestBatches") {
+      // If the filter is active, reset to show all
+      setFilteredRecipes(recipes);
+      setActiveFilter(null);
+      setEarlyFilter("notFiltered"); // Clear the active filter
+    } else {
+      // If the filter is not active, apply it
+      const sortedRecipes = [...recipes].sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA - dateB; // Sort descending by date
+      });
+      setFilteredRecipes(sortedRecipes);
+      setEarlyFilter("earliestBatches");
+      setActiveFilter("earlyBatches"); // Set the active filter
+    }
+  };
+
   const toggleMyBatchesFilter = () => {
     if (activeFilter === "myBatches") {
       // If the filter is active, reset to show all
       setFilteredRecipes(recipes);
       setActiveFilter(null); // Clear the active filter
+      setMineFilter("notMineFiltered");
     } else {
       // If the filter is not active, apply it
       if (user) {
@@ -110,6 +133,25 @@ const Log = () => {
         );
         setFilteredRecipes(myBatches);
         setActiveFilter("myBatches"); // Set the active filter
+        setMineFilter("mineBatches");
+      }
+    }
+  };
+  const toggleB2bBatchesFilter = () => {
+    if (activeFilter === "b2bBatches") {
+      // If the filter is active, reset to show all
+      setFilteredRecipes(recipes);
+      setActiveFilter(null); // Clear the active filter
+      setb2bFilter("notB2bFiltered");
+    } else {
+      // If the filter is not active, apply it
+      if (user) {
+        const b2bBatches = recipes.filter(
+          (recipe) => recipe.orderName !== "Retail"
+        );
+        setFilteredRecipes(b2bBatches);
+        setActiveFilter("b2bBatches"); // Set the active filter
+        setb2bFilter("b2bFiltered");
       }
     }
   };
@@ -126,8 +168,13 @@ const Log = () => {
         const employeesSnapshot = await get(employeesRef);
 
         if (batchesSnapshot.exists()) {
-          setRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
-          setFilteredRecipes(Object.values(batchesSnapshot.val())); // Transform Firebase data to array
+          // Transform Firebase data to array and sort by date (latest first)
+          const sortedBatches = Object.values(batchesSnapshot.val()).sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
+
+          setRecipes(sortedBatches); // Set sorted batches
+          setFilteredRecipes(sortedBatches); // Set sorted batches for filtered view
         } else {
           setError("No batches available");
         }
@@ -189,17 +236,18 @@ const Log = () => {
       >
         <Button
           variant="contained"
+          key={mineFilter}
           size="small" // Use Material-UI's size prop for smaller buttons
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
 
             backgroundColor:
-              activeFilter === "myBatches" ? "#E0E0E0" : "#FF007F",
+              activeFilter === "myBatches" ? "#FF007F" : "#bf08bb",
             color: activeFilter === "myBatches" ? "white" : "black",
             "&:hover": {
               backgroundColor:
-                activeFilter === "myBatches" ? "#E6006E" : "#C0C0C0",
+                activeFilter === "myBatches" ? "#E6006E" : "#FF007F",
             },
           }}
           onClick={toggleMyBatchesFilter}
@@ -208,33 +256,41 @@ const Log = () => {
         </Button>
         <Button
           variant="contained"
-          color="secondary"
           size="small"
+          key={earlyFilter}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
-            backgroundColor: "#4c7fa3",
+            backgroundColor:
+              activeFilter === "earliestBatches" ? "#FF007F" : "#4c7fa3",
+            color: activeFilter === "earliestBatches" ? "white" : "black",
             "&:hover": {
-              backgroundColor: "#FF007F",
+              backgroundColor:
+                activeFilter === "earliestBatches" ? "#E6006E" : "#FF007F",
             },
           }}
+          onClick={toggleEarliestBatch}
         >
           Earliest
         </Button>
         <Button
           variant="contained"
-          color="success"
+          key={activeFilter}
           size="small"
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
-            backgroundColor: "#11d272",
+            backgroundColor:
+              activeFilter === "b2bBatches" ? "#FF007F" : "#11d272",
+            color: activeFilter === "b2bBatches" ? "white" : "black",
             "&:hover": {
-              backgroundColor: "#FF007F",
+              backgroundColor:
+                activeFilter === "b2bBatches" ? "#E6006E" : "#FF007F",
             },
           }}
+          onClick={toggleB2bBatchesFilter}
         >
-          Button 3
+          B2B Orders
         </Button>
       </Box>
       <Grid container spacing={3}>

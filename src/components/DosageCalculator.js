@@ -32,7 +32,7 @@ const DosageCalculator = () => {
         maxWidth: "500px",
         margin: "auto",
         marginTop: "20px",
-        minHeight: "600px",
+        minHeight: "400px",
         display: "flex",
         flexDirection: "column",
         padding: "16px",
@@ -52,7 +52,7 @@ const DosageCalculator = () => {
           backgroundImage: `url(${tentacledBaker})`, // Background image
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.3, // Adjust the opacity of the background image
+          opacity: 0.2, // Adjust the opacity of the background image
           zIndex: -1, // Place it behind the card content
         },
       }}
