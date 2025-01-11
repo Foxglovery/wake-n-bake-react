@@ -171,7 +171,10 @@ const AddBatch = () => {
         margin: "auto",
         marginTop: "20px",
         padding: "16px",
-        color: "lightslategray", // Standardize font color for all text
+        color: "lightslategray",
+        height: "100vh", // Full screen height
+        overflow: "auto", // Allow scrolling when content overflows
+        boxSizing: "border-box", // Include padding in height calculation
         "& .MuiFormLabel-root": {
           color: "#FF007F", // Label color
         },
@@ -356,12 +359,6 @@ const AddBatch = () => {
               disabled
               sx={{
                 display: "none",
-                "& .MuiInputBase-root.Mui-disabled": {
-                  color: "lightslategray", // Disabled input text color
-                },
-                "& .MuiFormLabel-root.Mui-disabled": {
-                  color: "lightslategray", // Disabled label text color
-                },
               }}
             />
           </Grid>
@@ -433,102 +430,137 @@ const AddBatch = () => {
             />
           </Grid>
 
-          {batch.dosage.map((dose, index) => (
+          <Grid item xs={12}>
             <Box
+              display={"flex"}
+              justifyContent={"center"}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                marginLeft: "55px",
-                marginTop: "16px",
+                gap: "16px", // Add spacing between elements
+                flexWrap: "wrap",
               }}
             >
-              <Grid container spacing={2} key={index} sx={{ maxWidth: "100%" }}>
-                <Grid item xs={12} sm={3}>
-                  <FormControl fullWidth required>
-                    <InputLabel id={`dosage-oil-label-${index}`}>
-                      Cannabinoid
-                    </InputLabel>
-                    <Select
-                      labelId={`dosage-oil-label-${index}`}
-                      name="cannabinoid"
-                      value={dose.cannabinoid}
-                      onChange={(e) =>
-                        handleDosageChange(index, "cannabinoid", e.target.value)
-                      }
-                      label="Cannabinoid"
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: "bottom",
-                          horizontal: "left", // Align dropdown with the left edge
-                        },
-                        transformOrigin: {
-                          vertical: "top",
-                          horizontal: "left", // Grow from the left edge
-                        },
-                        PaperProps: {
-                          sx: {
-                            maxWidth: "100%", // Limit dropdown width to the screen width
-                            left: "0 !important", // Reset dropdown position
-                            overflowX: "auto", // Allow scrolling if content overflows horizontally
-                            zIndex: 1302, // Ensure the dropdown is above other elements
+              {batch.dosage.map((dose, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px", // Add smaller gap between dropdowns
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "8px", // Small gap between Cannabinoid and Milligrams
+                      flexWrap: "wrap",
+                      minWidth: "250px",
+                    }}
+                  >
+                    {/* Cannabinoid Select */}
+                    <FormControl fullWidth required>
+                      <InputLabel
+                        id={`dosage-oil-label-${index}`}
+                        sx={{
+                          color: "#FF007F", // Default label color
+                          "&.Mui-focused": {
+                            color: "#11d272", // Label color on focus
                           },
-                        },
-                      }}
-                    >
-                      {oilOptions.map((oil) => (
-                        <MenuItem key={oil} value={oil}>
-                          {oil}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={5}>
-                  <FormControl fullWidth required>
-                    <InputLabel id={`dosage-mg-label-${index}`}>
-                      Milligrams
-                    </InputLabel>
-                    <Select
-                      labelId={`dosage-mg-label-${index}`}
-                      name="mg"
-                      value={dose.mg}
-                      onChange={(e) =>
-                        handleDosageChange(index, "mg", e.target.value)
-                      }
-                      label="Milligrams"
-                      MenuProps={{
-                        sx: {
-                          "& .MuiPaper-root": {
-                            maxWidth: "calc(100vw - 32px)", // Prevent dropdown from exceeding screen width
-                            overflowX: "auto", // Allow horizontal scroll if needed
+                        }}
+                      >
+                        Cannabinoid
+                      </InputLabel>
+                      <Select
+                        labelId={`dosage-oil-label-${index}`}
+                        name="cannabinoid"
+                        value={dose.cannabinoid}
+                        onChange={(e) =>
+                          handleDosageChange(
+                            index,
+                            "cannabinoid",
+                            e.target.value
+                          )
+                        }
+                        label="Cannabinoid"
+                        sx={{
+                          "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#FF007F", // Default border color
                           },
-                        },
-                      }}
-                    >
-                      {milligramOptions.map((mg) => (
-                        <MenuItem key={mg} value={mg}>
-                          {mg} mg
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                  <Box>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => handleRemoveDosage(index)}
-                      sx={{ height: "100%", left: "50px" }}
-                    >
-                      Remove
-                    </Button>
+                          "&:hover .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#11d272", // Hover border color
+                          },
+                          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#11d272", // Border color on focus
+                          },
+                        }}
+                      >
+                        {oilOptions.map((oil) => (
+                          <MenuItem key={oil} value={oil}>
+                            {oil}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
+                    {/* MG Select */}
+                    <FormControl fullWidth required>
+                      <InputLabel
+                        id={`dosage-mg-label-${index}`}
+                        sx={{
+                          color: "#FF007F", // Default label color
+                          "&.Mui-focused": {
+                            color: "#11d272", // Label color on focus
+                          },
+                        }}
+                      >
+                        Milligrams
+                      </InputLabel>
+                      <Select
+                        labelId={`dosage-mg-label-${index}`}
+                        name="mg"
+                        value={dose.mg}
+                        onChange={(e) =>
+                          handleDosageChange(index, "mg", e.target.value)
+                        }
+                        label="Milligrams"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "#FF007F", // Default border color
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "#11d272", // Hover border color
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#11d272", // Border color on focus
+                            },
+                          },
+                        }}
+                      >
+                        {milligramOptions.map((mg) => (
+                          <MenuItem key={mg} value={mg}>
+                            {mg} mg
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Box>
-                </Grid>
-              </Grid>
+
+                  {/* Remove Dosage Button */}
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleRemoveDosage(index)}
+                  >
+                    Remove
+                  </Button>
+                </Box>
+              ))}
             </Box>
-          ))}
+          </Grid>
+
           <Grid item xs={12}>
             <Box display={"flex"} justifyContent={"center"}>
               <Button
