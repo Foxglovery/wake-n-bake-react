@@ -13,6 +13,9 @@ import {
   Select,
   FormControl,
   InputLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -29,7 +32,7 @@ const AddBatch = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null); // HOLDS THE CURRENTLY LOGGED-IN USER
-
+  const [isRetail, setIsRetail] = useState(false);
   const oilOptions = ["D9", "D8", "FS", "D9/CBD", "D8/CBD"];
   const milligramOptions = [
     10, 15, 20, 25, 30, 35, 40, 50, 100, 150, 200, 250, 400,
@@ -97,17 +100,14 @@ const AddBatch = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // IF THE RECIPE NAME DROPDOWN IS CHANGED
     if (name === "recipeName") {
-      // FIND THE SELECTED RECIPE BASED ON THE ID
       const selectedRecipe = recipes.find((recipe) => recipe.id === value);
       setBatch((prev) => ({
         ...prev,
-        recipeName: selectedRecipe ? selectedRecipe.name : "", // STORE THE NAME FOR DISPLAY
-        recipeId: selectedRecipe ? selectedRecipe.id : "", // STORE THE ID FOR SUBMISSION
+        recipeName: selectedRecipe ? selectedRecipe.name : "Unnamed Recipe", // Fallback to a default name
+        recipeId: value,
       }));
     } else {
-      // UPDATE OTHER FIELDS AS USUAL
       setBatch((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -139,10 +139,9 @@ const AddBatch = () => {
       const dbRef = ref(database, "batches");
       const newBatchRef = await push(dbRef); // PUSH THE MAIN BATCH AND GET ITS UNIQUE KEY
 
-      // PATCH THE BATCH FIELDS FIRST (EXCLUDING DOSAGE)
+      // PATCH THE BATCH FIELDS (INCLUDING recipeName)
       const batchWithoutDosage = { ...batch };
       delete batchWithoutDosage.dosage; // REMOVE DOSAGE TO SAVE IT SEPARATELY
-      delete batchWithoutDosage.recipeName; // REMOVE recipeName TO AVOID DUPLICATES
       await update(newBatchRef, batchWithoutDosage); // UPDATE THE BATCH FIELDS
 
       // STORE EACH DOSAGE UNDER THE `dosage` FIELD OF THE NEW BATCH
@@ -233,37 +232,36 @@ const AddBatch = () => {
               <Select
                 labelId="recipe-name-label"
                 name="recipeName"
-                value={batch.recipeId}
+                value={batch.recipeId || ""} // Default to empty string
                 onChange={handleChange}
                 label="Recipe Name"
                 sx={{
-                  "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                  "& .MuiInputLabel-root": { color: "#FF007F" },
                   "& .MuiInputLabel-root.Mui-focused": {
                     color: "#bf08bb",
                   },
                   "& .MuiInputBase-input::placeholder": {
-                    color: "white", // Change placeholder color
-                    opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                    color: "white",
+                    opacity: 1,
                   },
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#FF007F", // Default border color
+                      borderColor: "#FF007F",
                     },
                     "&:hover fieldset": {
-                      borderColor: "#11d272", // Hover border color
+                      borderColor: "#11d272",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#11d272", // Focused border color
+                      borderColor: "#11d272",
                     },
                   },
                   "& .MuiInputBase-input": {
-                    color: "white", // Input text color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#11d272", // Hover border color
+                    color: "white",
                   },
                 }}
               >
+                <MenuItem value="">Select a recipe</MenuItem>{" "}
+                {/* Default placeholder */}
                 {recipes.map((recipe) => (
                   <MenuItem key={recipe.id} value={recipe.id}>
                     {recipe.name}
@@ -367,6 +365,36 @@ const AddBatch = () => {
               }}
             />
           </Grid>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <FormGroup>
+              <FormControlLabel
+                sx={{
+                  color: isRetail ? "#11d272" : "#FF007F",
+                }}
+                control={
+                  <Checkbox
+                    checked={isRetail}
+                    onChange={(e) => {
+                      setIsRetail(e.target.checked);
+                      setBatch((prev) => ({
+                        ...prev,
+                        orderName: e.target.checked ? "Retail" : "",
+                      }));
+                    }}
+                    sx={{
+                      color: "#FF007F",
+                      "& .MuiSvgIcon-root": { fontSize: 28 },
+                      "&.Mui-checked": {
+                        color: "#11d272",
+                      },
+                    }}
+                  />
+                }
+                label="Retail Order"
+              />
+            </FormGroup>
+          </Grid>
+
           <Grid item xs={12}>
             <TextField
               fullWidth

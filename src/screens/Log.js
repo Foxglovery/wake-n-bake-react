@@ -84,6 +84,8 @@ const Log = () => {
   const [earlyFilter, setEarlyFilter] = useState("earlyValue");
   const [mineFilter, setMineFilter] = useState("MineValue");
   const [b2bFilter, setb2bFilter] = useState("b2bValue");
+  const [renderKey, setRenderKey] = useState(0);
+
   const filterMyBatches = () => {
     if (user) {
       const myBatches = recipes.filter(
@@ -102,21 +104,18 @@ const Log = () => {
   // Sorting button logic
   const toggleEarliestBatch = () => {
     if (activeFilter === "earliestBatches") {
-      // If the filter is active, reset to show all
-      setFilteredRecipes(recipes);
-      setActiveFilter(null);
-      setEarlyFilter("notFiltered"); // Clear the active filter
+      setFilteredRecipes(recipes); // Show all recipes
+      setActiveFilter(null); // Clear the active filter
     } else {
-      // If the filter is not active, apply it
       const sortedRecipes = [...recipes].sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-        return dateA - dateB; // Sort descending by date
+        return dateA - dateB; // Sort ascending by date
       });
       setFilteredRecipes(sortedRecipes);
-      setEarlyFilter("earliestBatches");
-      setActiveFilter("earlyBatches"); // Set the active filter
+      setActiveFilter("earliestBatches"); // Set the active filter
     }
+    setRenderKey((prevKey) => prevKey + 1);
   };
 
   const toggleMyBatchesFilter = () => {
@@ -124,7 +123,6 @@ const Log = () => {
       // If the filter is active, reset to show all
       setFilteredRecipes(recipes);
       setActiveFilter(null); // Clear the active filter
-      setMineFilter("notMineFiltered");
     } else {
       // If the filter is not active, apply it
       if (user) {
@@ -133,28 +131,31 @@ const Log = () => {
         );
         setFilteredRecipes(myBatches);
         setActiveFilter("myBatches"); // Set the active filter
-        setMineFilter("mineBatches");
       }
     }
+    setRenderKey((prevKey) => prevKey + 1);
   };
+
   const toggleB2bBatchesFilter = () => {
     if (activeFilter === "b2bBatches") {
       // If the filter is active, reset to show all
       setFilteredRecipes(recipes);
       setActiveFilter(null); // Clear the active filter
-      setb2bFilter("notB2bFiltered");
     } else {
       // If the filter is not active, apply it
-      if (user) {
-        const b2bBatches = recipes.filter(
-          (recipe) => recipe.orderName !== "Retail"
-        );
-        setFilteredRecipes(b2bBatches);
-        setActiveFilter("b2bBatches"); // Set the active filter
-        setb2bFilter("b2bFiltered");
-      }
+
+      const b2bBatches = recipes.filter(
+        (recipe) => recipe.orderName !== "Retail"
+      );
+      setFilteredRecipes(b2bBatches);
+      setActiveFilter("b2bBatches"); // Set the active filter
     }
+    setRenderKey((prevKey) => prevKey + 1);
   };
+
+  useEffect(() => {
+    console.log("Active Filter:", activeFilter);
+  }, [activeFilter]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -227,6 +228,7 @@ const Log = () => {
     <Box sx={{ padding: "16px" }}>
       {/* Sorting Buttons */}
       <Box
+        key={renderKey}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -236,15 +238,14 @@ const Log = () => {
       >
         <Button
           variant="contained"
-          key={mineFilter}
           size="small" // Use Material-UI's size prop for smaller buttons
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
-
+            textDecoration: activeFilter === "myBatches" ? "underline" : "none",
             backgroundColor:
               activeFilter === "myBatches" ? "#FF007F" : "#bf08bb",
-            color: activeFilter === "myBatches" ? "white" : "black",
+            color: "black",
             "&:hover": {
               backgroundColor:
                 activeFilter === "myBatches" ? "#E6006E" : "#FF007F",
@@ -252,18 +253,19 @@ const Log = () => {
           }}
           onClick={toggleMyBatchesFilter}
         >
-          My Batches
+          {activeFilter === "myBatches" ? "My Batches" : "All Batches"}
         </Button>
         <Button
           variant="contained"
           size="small"
-          key={earlyFilter}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
+            textDecoration:
+              activeFilter === "earliestBatches" ? "underline" : "none",
             backgroundColor:
               activeFilter === "earliestBatches" ? "#FF007F" : "#4c7fa3",
-            color: activeFilter === "earliestBatches" ? "white" : "black",
+            color: "black",
             "&:hover": {
               backgroundColor:
                 activeFilter === "earliestBatches" ? "#E6006E" : "#FF007F",
@@ -271,18 +273,19 @@ const Log = () => {
           }}
           onClick={toggleEarliestBatch}
         >
-          Earliest
+          {activeFilter === "earliestBatches" ? "Earliest" : "Latest"}
         </Button>
         <Button
           variant="contained"
-          key={activeFilter}
           size="small"
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
+            textDecoration:
+              activeFilter === "b2bBatches" ? "underline" : "none",
             backgroundColor:
               activeFilter === "b2bBatches" ? "#FF007F" : "#11d272",
-            color: activeFilter === "b2bBatches" ? "white" : "black",
+            color: "black",
             "&:hover": {
               backgroundColor:
                 activeFilter === "b2bBatches" ? "#E6006E" : "#FF007F",
@@ -290,9 +293,10 @@ const Log = () => {
           }}
           onClick={toggleB2bBatchesFilter}
         >
-          B2B Orders
+          {activeFilter === "b2bBatches" ? "B2B Orders" : "All Orders"}
         </Button>
       </Box>
+
       <Grid container spacing={3}>
         {filteredRecipes.map((recipe, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>

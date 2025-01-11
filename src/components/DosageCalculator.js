@@ -71,8 +71,8 @@ const DosageCalculator = () => {
         gutterBottom
         sx={{ color: "#FF007F" }}
       >
-        Enter the relevant information and let the tentacular baker figure out
-        how many units of the good stuff you will need.
+        Consult the eldritch baker to reveal how many units of the good stuff
+        you will need.
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
