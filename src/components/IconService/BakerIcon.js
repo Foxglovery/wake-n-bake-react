@@ -5,7 +5,8 @@ function BakerIcon(props) {
     <svg
       width="800px"
       height="800px"
-      viewBox="0 0 323.218 323.218"
+      viewBox="50 10 220 220"
+      //viewBox="0 0 323.218 323.218"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       fill="currentColor" // Use currentColor to inherit text color

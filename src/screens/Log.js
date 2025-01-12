@@ -10,7 +10,7 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/system";
+import { color, styled } from "@mui/system";
 import CalendarIcon from "../components/IconService/CalenderIcon";
 import CountIcon from "../components/IconService/CountIcon";
 import OrderIcon from "../components/IconService/OrderIcon";
@@ -410,7 +410,12 @@ const Log = () => {
                 >
                   {/* Order */}
                   <Box
-                    sx={{ display: "flex", alignItems: "center", gap: "8px" }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginLeft: "5px",
+                    }}
                   >
                     <OrderIcon width="26px" height="26px" />
                     {/* <img

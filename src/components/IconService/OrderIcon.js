@@ -5,7 +5,7 @@ function OrderIcon(props) {
     <svg
       width="800px"
       height="800px"
-      viewBox="0 0 512 512"
+      viewBox="-5 40 500 500"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       fill="currentColor" // Use currentColor to allow inherited or styled color
