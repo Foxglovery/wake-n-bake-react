@@ -9,10 +9,11 @@ import Login from "../screens/Login";
 
 const routes = [
   {
-    path: "",
+    path: "/",
     component: Home,
     name: "Home Page",
     protected: true,
+    exact: true, // Ensures exact match
   },
   {
     path: "/login",
@@ -21,7 +22,7 @@ const routes = [
     protected: false,
   },
   {
-    path: "/login",
+    path: "/logout",
     component: Logout,
     name: "Logout Screen",
     protected: false,
@@ -30,25 +31,31 @@ const routes = [
     path: "/findIt",
     component: FindIt,
     name: "Log of Batches",
-    protected: true, // if user needs to be authenticated to access this screen
+    protected: true,
   },
   {
     path: "/bakeIt",
     component: BakeIt,
     name: "Adding a batch to the database",
-    protected: true, // if user needs to be authenticated to access this screen
+    protected: true,
   },
   {
     path: "/doseIt",
     component: DoseIt,
     name: "Calculating the required units to meet dosage",
-    protected: true, // if user needs to be authenticated to access this screen
+    protected: true,
   },
   {
     path: "/addRecipe",
     component: AddARecipe,
     name: "Adding a recipe to the database",
-    protected: true, // if user needs to be authenticated to access this screen
+    protected: true,
+  },
+  {
+    path: "*",
+    component: () => <h1>404 - Page Not Found</h1>,
+    name: "Not Found",
+    protected: false,
   },
 ];
 

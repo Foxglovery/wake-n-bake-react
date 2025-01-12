@@ -6,10 +6,12 @@ const AuthChecker = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Current user:", auth.currentUser);
     if (!auth.currentUser) {
       navigate("/login");
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <>{children}</>;
 };
