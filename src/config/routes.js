@@ -4,7 +4,7 @@ import BakeIt from "../screens/BakeIt";
 import DoseIt from "../screens/DoseIt";
 import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
-import Log from "../screens/Log";
+
 import Login from "../screens/Login";
 
 const routes = [

@@ -31,7 +31,7 @@ const AddBatch = () => {
   const [recipes, setRecipes] = useState([]); // HOLDS RECIPE DATA FETCHED FROM FIREBASE
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [user, setUser] = useState(null); // HOLDS THE CURRENTLY LOGGED-IN USER
+
   const [isRetail, setIsRetail] = useState(false);
   const oilOptions = ["D9", "D8", "FS", "D9/CBD", "D8/CBD"];
   const milligramOptions = [
@@ -39,24 +39,20 @@ const AddBatch = () => {
   ];
 
   useEffect(() => {
-    // AUTOFILL TODAY'S DATE
-    const today = new Date().toISOString().split("T")[0]; // FORMAT AS YYYY-MM-DD
+    // Autofill today's date
+    const today = new Date().toISOString().split("T")[0];
     setBatch((prev) => ({ ...prev, date: today }));
 
-    // LISTEN FOR CHANGES IN AUTHENTICATION STATE
+    // Listen for changes in authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user); // SET THE USER STATE WITH THE CURRENT USER OBJECT
         setBatch((prev) => ({
           ...prev,
-          employeeId: user.uid, // AUTOMATICALLY FILL EMPLOYEEID WITH THE USER'S UID
+          employeeId: user.uid, // Automatically fill employeeId
         }));
-      } else {
-        setUser(null);
       }
     });
 
-    // CLEANUP THE SUBSCRIPTION WHEN THE COMPONENT UNMOUNTS
     return () => unsubscribe();
   }, []);
 

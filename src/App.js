@@ -6,13 +6,11 @@ import {
   GlobalStyles,
   ThemeProvider,
 } from "@mui/material";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { auth } from "./config/firebase";
 import routes from "./config/routes";
 import Center from "./components/utils/Center";
 import AuthChecker from "./components/auth/AuthChecker";
-import { signOut } from "firebase/auth";
-import ResponsiveAppBar from "./components/NavBar";
 
 // Create a Material UI dark theme
 const darkTheme = createTheme({

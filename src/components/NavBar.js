@@ -74,7 +74,6 @@ function ResponsiveAppBar() {
       <Container
         maxWidth="xl"
         sx={{
-          background: "rgb(17,210,114)", // Fallback background color
           background: `linear-gradient(0deg, #11d272 0%, #1dc175 6%, #38969d 47%, #4c7fa3 59%, #bf08bb 100%)`,
         }}
       >

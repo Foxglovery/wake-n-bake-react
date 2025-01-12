@@ -10,7 +10,7 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { height, styled, width } from "@mui/system";
+import { styled } from "@mui/system";
 import CalendarIcon from "../components/IconService/CalenderIcon";
 import CountIcon from "../components/IconService/CountIcon";
 import OrderIcon from "../components/IconService/OrderIcon";
@@ -83,9 +83,6 @@ const Log = () => {
   const [activeFilter, setActiveFilter] = useState(null);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [renderKey, setRenderKey] = useState(0);
-  const [hoverStates, setHoverStates] = useState([false, false, false]);
-  // used to toggle btn text (abstracted away from the hoverState)
-  const [focusStates, setFocusStates] = useState([false, false, false]);
 
   // Sorting button logic
   const toggleEarliestBatch = () => {
@@ -137,37 +134,6 @@ const Log = () => {
       setActiveFilter("b2bBatches"); // Set the active filter
     }
     setRenderKey((prevKey) => prevKey + 1);
-  };
-
-  // Sorting Button Hover Logic
-
-  const handleMouseEnter = (index) => {
-    setHoverStates((prev) => {
-      const updated = [...prev];
-      updated[index] = true;
-      return updated;
-    });
-
-    if (activeFilter)
-      setFocusStates((prev) => {
-        const updated = [...prev];
-        updated[index] = true;
-        return updated;
-      });
-  };
-
-  const handleMouseLeave = (index) => {
-    setHoverStates((prev) => {
-      const updated = [...prev];
-      updated[index] = false;
-      return updated;
-    });
-
-    setFocusStates((prev) => {
-      const updated = [...prev];
-      updated[index] = false;
-      return updated;
-    });
   };
 
   useEffect(() => {
@@ -256,8 +222,6 @@ const Log = () => {
         <Button
           variant="contained"
           size="small" // Use Material-UI's size prop for smaller buttons
-          onMouseEnter={() => handleMouseEnter(0)}
-          onMouseLeave={() => handleMouseLeave(0)}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
@@ -277,8 +241,6 @@ const Log = () => {
         <Button
           variant="contained"
           size="small"
-          onMouseEnter={() => handleMouseEnter(1)}
-          onMouseLeave={() => handleMouseLeave(1)}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
@@ -299,8 +261,6 @@ const Log = () => {
         <Button
           variant="contained"
           size="small"
-          onMouseEnter={() => handleMouseEnter(2)}
-          onMouseLeave={() => handleMouseLeave(2)}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
