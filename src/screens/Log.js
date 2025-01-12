@@ -393,7 +393,7 @@ const Log = () => {
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    <CountIcon width="26px" height="auto" />
+                    <CountIcon width="26px" height="18px" />
                     {/* <img
                       alt="quantity"
                       src={counter}
@@ -416,7 +416,7 @@ const Log = () => {
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    <CalendarIcon width="25px" height="auto" />
+                    <CalendarIcon width="25px" height="21px" />
                     {/* <img
                       alt="date"
                       src={dateIcon} // Replace with the correct path to your date icon
@@ -452,7 +452,7 @@ const Log = () => {
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "8px" }}
                   >
-                    <OrderIcon width="26px" height="auto" />
+                    <OrderIcon width="26px" height="26px" />
                     {/* <img
                       alt="order"
                       src={orderIcon}
@@ -479,7 +479,7 @@ const Log = () => {
                       gap: "0px",
                     }}
                   >
-                    <BakerIcon width="26px" height="auto" />
+                    <BakerIcon width="26px" height="26px" />
                     {/* <img
                       alt="employee"
                       src={employeeIcon}

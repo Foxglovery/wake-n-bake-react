@@ -355,11 +355,8 @@ const AddBatch = () => {
               name="employeeId"
               value={batch.employeeId || ""}
               onChange={handleChange}
-              hidden
               disabled
-              sx={{
-                display: "none",
-              }}
+              hidden
             />
           </Grid>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
