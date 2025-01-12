@@ -10,7 +10,7 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { color, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import CalendarIcon from "../components/IconService/CalenderIcon";
 import CountIcon from "../components/IconService/CountIcon";
 import OrderIcon from "../components/IconService/OrderIcon";
@@ -221,7 +221,10 @@ const Log = () => {
       >
         <Button
           variant="contained"
-          size="small" // Use Material-UI's size prop for smaller buttons
+          size="small"
+          TouchRippleProps={{
+            classes: { ripple: "custom-ripple" }, // Link to custom ripple styles
+          }}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
@@ -232,6 +235,10 @@ const Log = () => {
             "&:hover": {
               backgroundColor:
                 activeFilter === "myBatches" ? "#de016f" : "#aa07a7",
+            },
+            "& .custom-ripple": {
+              backgroundColor: "rgba(255, 255, 255, 0.4)", // Ripple color
+              transform: "scale(0.7)", // Constrain ripple size
             },
           }}
           onClick={toggleMyBatchesFilter}

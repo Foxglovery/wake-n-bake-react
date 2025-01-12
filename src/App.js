@@ -17,21 +17,32 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#121212", // Dark background
-      paper: "#1e1e1e", // Slightly lighter for paper elements
+      default: "#121212",
+      paper: "#1e1e1e",
     },
     primary: {
-      main: "#90caf9", // Material blue
+      main: "#90caf9",
     },
     chip: {
       main: "#3AAED8",
     },
     secondary: {
-      main: "#f48fb1", // Material pink
+      main: "#f48fb1",
     },
   },
   typography: {
-    fontFamily: "Spicy Rice", // Material Design default font
+    fontFamily: "Spicy Rice",
+  },
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
+        TouchRippleProps: {
+          classes: {
+            ripple: "custom-ripple",
+          },
+        },
+      },
+    },
   },
 });
 
@@ -61,12 +72,15 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          "*": {
-            scrollbarWidth: "none", // Firefox
-            msOverflowStyle: "none", // Internet Explorer
+          ".custom-ripple": {
+            backgroundColor: "rgb(0, 255, 174)", // Default ripple color
+            transform: "scale(0.3)", // Constrain ripple size
           },
-          "*::-webkit-scrollbar": {
-            display: "none", // Chrome, Safari, Opera
+          ".MuiTouchRipple-root .MuiTouchRipple-rippleVisible": {
+            animationDuration: "100ms", // Adjust ripple animation speed
+          },
+          ".MuiTouchRipple-root .MuiTouchRipple-child": {
+            borderRadius: "20px", // Shape of the ripple
           },
         }}
       />
