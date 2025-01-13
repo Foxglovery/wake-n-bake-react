@@ -1,8 +1,8 @@
 import Logout from "../components/auth/Logout";
-import BatchCard from "../components/BatchCard";
 import AddARecipe from "../screens/AddRecipe";
 import BakeIt from "../screens/BakeIt";
 import DoseIt from "../screens/DoseIt";
+import EditBatch from "../screens/EditBatch";
 import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
 
@@ -54,7 +54,7 @@ const routes = [
   },
   {
     path: "/batch/:id",
-    component: BatchCard,
+    component: EditBatch,
     name: "Viewing a specific card and allowing for Update/Delete",
     protected: true,
   },
