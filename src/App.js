@@ -43,6 +43,34 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#FF007F", // Default label color
+          "&.Mui-focused": {
+            color: "#FF007F", // Focused label color
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& fieldset": {
+            borderColor: "#bf08bb !important", // Ensure green as default border color
+          },
+          "&:hover fieldset": {
+            borderColor: "#11d272 !important", // Ensure hover border color is green
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#11d272 !important", // Ensure focus border color is green
+          },
+        },
+        input: {
+          color: "white", // Input text color
+        },
+      },
+    },
   },
 });
 

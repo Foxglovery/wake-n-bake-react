@@ -167,51 +167,13 @@ const AddBatch = () => {
         margin: "auto",
         marginTop: "20px",
         padding: "16px",
-        color: "lightslategray",
+        //color: "lightslategray",
         height: "100vh", // Full screen height
         overflow: "auto", // Allow scrolling when content overflows
         boxSizing: "border-box", // Include padding in height calculation
         "& .MuiInputBase-input": {
           color: "inherit", // Allows child components to inherit specific styles
         },
-        // "& .MuiFormLabel-root": {
-        //   color: "#FF007F", // Label color
-        // },
-
-        // "& .MuiOutlinedInput-root": {
-        //   "& fieldset": {
-        //     borderColor: "#FF007F", // Default border color
-        //   },
-        //   "& .MuiInputBase-input::placeholder": {
-        //     color: "#FF007F", // Change placeholder color
-        //     opacity: 1, // Ensure the opacity is visible (can be adjusted)
-        //   },
-        //   "& .MuiInputLabel-root.Mui-focused": {
-        //     color: "#bf08bb",
-        //   },
-        //   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-        //     {
-        //       borderColor: "black", // Focused border color
-        //     },
-        //   "& .MuiSelect-select": {
-        //     color: "#FF007F", // Select dropdown text color
-        //   },
-        //   "& .MuiMenuItem-root": {
-        //     color: "lightslategray", // Dropdown menu item color
-        //   },
-        //   "& .MuiMenuItem-root:hover": {
-        //     backgroundColor: "lightgray", // Dropdown menu hover background
-        //   },
-        //   "&:hover fieldset": {
-        //     borderColor: "#bf08bb", // Hover border color
-        //   },
-        //   "&.Mui-focused fieldset": {
-        //     borderColor: "#bf08bb", // Focused border color
-        //   },
-        //   "& .MuiInputBase-input": {
-        //     color: "#FF007F", // Input text color
-        //   },
-        // },
       }}
     >
       <Typography
@@ -236,31 +198,36 @@ const AddBatch = () => {
                 onChange={handleChange}
                 label="Recipe Name"
                 sx={{
-                  "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                  // Label styles
+                  "& .MuiInputLabel-root": {
+                    color: "#FF007F", // Default label color
+                  },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#11d272",
+                    color: "#FF007F", // Focused label color
                   },
+
+                  // Placeholder styles
                   "& .MuiInputBase-input::placeholder": {
-                    color: "white", // Change placeholder color
-                    opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                    color: "white", // Placeholder color
+                    opacity: 1, // Ensure placeholder is fully visible
                   },
+
+                  // Input text styles
+                  "& .MuiInputBase-input": {
+                    color: "white", // Set initial and typed text color to white
+                  },
+
+                  // Outlined input styles
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#FF007F", // Default border color
+                      borderColor: "#bf08bb", // Default border color
                     },
                     "&:hover fieldset": {
                       borderColor: "#11d272", // Hover border color
                     },
-
                     "&.Mui-focused fieldset": {
                       borderColor: "#11d272", // Focused border color
                     },
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white", // Input text color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#bf08bb", // Hover border color
                   },
                 }}
               >
@@ -333,7 +300,7 @@ const AddBatch = () => {
                 sx: {
                   color: "#FF007F", // Default label color
                   "&.Mui-focused": {
-                    color: "#bf08bb", // Focused label color
+                    color: "#FF007F", // Focused label color
                   },
                 },
               }}
@@ -536,7 +503,7 @@ const AddBatch = () => {
                         sx={{
                           color: "#FF007F", // Default label color
                           "&.Mui-focused": {
-                            color: "#11d272", // Label color on focus
+                            color: "#FF007F", // Label color on focus
                           },
                         }}
                       >
@@ -581,7 +548,7 @@ const AddBatch = () => {
                         sx={{
                           color: "#FF007F", // Default label color
                           "&.Mui-focused": {
-                            color: "#11d272", // Label color on focus
+                            color: "#FF007F", // Label color on focus
                           },
                         }}
                       >
@@ -641,6 +608,9 @@ const AddBatch = () => {
                   marginTop: 2,
                   //backgroundColor: "#bf08bb",
                   backgroundColor: "#11d272",
+                  "&:hover": {
+                    backgroundColor: "#0eae5e",
+                  },
                 }}
               >
                 Add Dosage
@@ -656,6 +626,9 @@ const AddBatch = () => {
               sx={{
                 //backgroundColor: "#11d272",
                 backgroundColor: "#bf08bb",
+                "&:hover": {
+                  backgroundColor: "#a707a5",
+                },
               }}
             >
               Submit Batch
