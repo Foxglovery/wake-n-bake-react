@@ -18,6 +18,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const AddBatch = () => {
   const [batch, setBatch] = useState({
@@ -33,7 +34,8 @@ const AddBatch = () => {
   const [error, setError] = useState("");
   const [isBackstock, setIsBackstock] = useState(false);
   const [isRetail, setIsRetail] = useState(false);
-  const oilOptions = ["D9", "D8", "FS", "D9/CBD", "D8/CBD"];
+  const navigate = useNavigate();
+  const oilOptions = ["D9", "D8", "CBD"];
   const milligramOptions = [
     10, 15, 20, 25, 30, 35, 40, 50, 100, 150, 200, 250, 400,
   ];
@@ -155,6 +157,9 @@ const AddBatch = () => {
         employeeId: "",
         orderName: "",
       });
+      setTimeout(() => {
+        navigate("/findIt");
+      }, 1000);
     } catch (err) {
       setError("Failed to add batch: " + err.message);
     }
@@ -184,7 +189,7 @@ const AddBatch = () => {
       >
         Add a New Batch
       </Typography>
-      {success && <Alert severity="success">Batch added successfully!</Alert>}
+      {success && <Alert severity="success">You Did It!!</Alert>}
       {error && <Alert severity="error">{error}</Alert>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

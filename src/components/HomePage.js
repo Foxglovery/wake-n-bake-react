@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import FoxSwirlIcon from "../components/IconService/FoxSwirlIcon";
-
+import DrippyLeaf from "../assets/weed-leaf-drip-trans-areas.png";
 const HomePage = () => {
   return (
     <Box
@@ -9,37 +8,39 @@ const HomePage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        height: "100vh", // Full viewport height
-        textAlign: "center",
+        justifyContent: "flex-start",
+        minHeight: "100vh", // Ensure it spans the full height of the viewport
         padding: "16px",
         backgroundColor: "#121212", // Optional background color
+        textAlign: "center",
+        gap: "16px", // Add spacing between SVG and text
       }}
     >
       {/* Centered SVG */}
       <Box
         sx={{
-          width: "200px", // Adjust width as needed
-          height: "auto",
-          marginBottom: "16px",
+          width: "100%",
+          maxWidth: "300px", // Restrict maximum size on larger screens
+          aspectRatio: "1/1", // Keep the SVG square
+          marginTop: "32px",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <FoxSwirlIcon /> {/* Render your SVG component */}
+        <img alt="a marijuana leaf dripping" src={DrippyLeaf} />
       </Box>
-
       {/* Description */}
       <Typography
         variant="h6"
         sx={{
-          color: "#FFFFFF", // Adjust text color as needed
-          maxWidth: "600px",
-          margin: "0 auto",
+          color: "#FFFFFF",
+          maxWidth: "90%", // Keep the text width constrained on mobile
+          margin: "0 auto", // Center the text
+          fontSize: { xs: "16px", sm: "18px", md: "20px" }, // Responsive font sizes
         }}
       >
-        Welcome to our app! This platform allows you to manage your batches,
-        calculate dosages, and keep track of all your recipes effortlessly. Our
-        intuitive interface ensures you can focus on what matters most—
-        delivering excellence in every batch.
+        Welcome to Wake-N-Bake! <br></br>Here you can calculate dosages and
+        record what you've made!
       </Typography>
     </Box>
   );

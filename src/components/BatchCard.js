@@ -168,7 +168,7 @@ export default function BatchCard() {
       setSuccess(true);
       setTimeout(() => {
         navigate("/findIt");
-      }, 3000);
+      }, 1000);
     } catch (err) {
       setError("Failed to delete batch: " + err.message);
     }
@@ -200,7 +200,7 @@ export default function BatchCard() {
             marginBottom: "5px",
           }}
         >
-          Batch updated successfully!
+          Batch gathered, dusted off, and polished!
         </Typography>
       )}
       {error && <Typography color="error">{error}</Typography>}

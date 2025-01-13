@@ -117,7 +117,7 @@ function ResponsiveAppBar() {
                 color: "#FF007F",
                 padding: 0,
                 "&:hover": {
-                  backgroundColor: "transparent",
+                  backgroundColor: "transparent !important",
                 },
               }}
             >

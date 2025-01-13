@@ -101,15 +101,15 @@ function App() {
       <GlobalStyles
         styles={{
           ".custom-ripple": {
-            backgroundColor: "rgb(0, 255, 174)", // Default ripple color
-            transform: "scale(0.3)", // Constrain ripple size
+            backgroundColor: "rgba(0, 255, 174, 0)", // Default ripple color
+            //transform: "scale(0.3)", // Constrain ripple size
           },
           ".MuiTouchRipple-root .MuiTouchRipple-rippleVisible": {
             animationDuration: "100ms", // Adjust ripple animation speed
           },
-          ".MuiTouchRipple-root .MuiTouchRipple-child": {
-            borderRadius: "20px", // Shape of the ripple
-          },
+          // ".MuiTouchRipple-root .MuiTouchRipple-child": {
+          //   borderRadius: "20px", // Shape of the ripple
+          // },
         }}
       />
       <div>

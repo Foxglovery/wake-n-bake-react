@@ -36,7 +36,7 @@ const DosageCalculator = () => {
         display: "flex",
         flexDirection: "column",
         padding: "16px",
-        backgroundColor: "rgba(0, 0, 0, 0.7)", // Card background
+        //backgroundColor: "rgba(0, 0, 0, 0.7)", // Card background
         borderRadius: "8px",
         boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
         color: "white",
