@@ -2,6 +2,7 @@ import Logout from "../components/auth/Logout";
 import AddARecipe from "../screens/AddRecipe";
 import BakeIt from "../screens/BakeIt";
 import DoseIt from "../screens/DoseIt";
+import EditBatch from "../screens/EditBatch";
 import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
 
@@ -49,6 +50,12 @@ const routes = [
     path: "/addRecipe",
     component: AddARecipe,
     name: "Adding a recipe to the database",
+    protected: true,
+  },
+  {
+    path: "/batch/:id",
+    component: EditBatch,
+    name: "Viewing a specific card and allowing for Update/Delete",
     protected: true,
   },
   {

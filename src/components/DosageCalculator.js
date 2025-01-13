@@ -36,7 +36,7 @@ const DosageCalculator = () => {
         display: "flex",
         flexDirection: "column",
         padding: "16px",
-        backgroundColor: "rgba(0, 0, 0, 0.7)", // Card background
+        //backgroundColor: "rgba(0, 0, 0, 0.7)", // Card background
         borderRadius: "8px",
         boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
         color: "white",
@@ -86,9 +86,9 @@ const DosageCalculator = () => {
             placeholder="Enter number of edibles"
             sx={{
               "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#bf08bb",
-              },
+              // "& .MuiInputLabel-root.Mui-focused": {
+              //   color: "#bf08bb",
+              // },
               "& .MuiInputBase-input::placeholder": {
                 color: "white", // Change placeholder color
                 opacity: 1, // Ensure the opacity is visible (can be adjusted)
@@ -121,9 +121,9 @@ const DosageCalculator = () => {
             placeholder="Enter oil concentration (e.g., 50)"
             sx={{
               "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#11d272",
-              },
+              // "& .MuiInputLabel-root.Mui-focused": {
+              //   color: "#11d272",
+              // },
               "& .MuiInputBase-input::placeholder": {
                 color: "white", // Change placeholder color
                 opacity: 1, // Ensure the opacity is visible (can be adjusted)
@@ -156,9 +156,9 @@ const DosageCalculator = () => {
             placeholder="Enter desired dosage per edible"
             sx={{
               "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#bf08bb",
-              },
+              // "& .MuiInputLabel-root.Mui-focused": {
+              //   color: "#bf08bb",
+              // },
               "& .MuiInputBase-input::placeholder": {
                 color: "white", // Change placeholder color
                 opacity: 1, // Ensure the opacity is visible (can be adjusted)
@@ -193,12 +193,13 @@ const DosageCalculator = () => {
             placeholder="Calculated oil needed will appear here"
             sx={{
               "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#11d272",
-              },
+              // "& .MuiInputLabel-root.Mui-focused": {
+              //   color: "#11d272",
+              // },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "#FF007F", // Default border color
+                  color: "white",
                 },
                 "&:hover fieldset": {
                   borderColor: "#11d272", // Hover border color

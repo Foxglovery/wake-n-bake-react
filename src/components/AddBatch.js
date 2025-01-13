@@ -18,6 +18,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const AddBatch = () => {
   const [batch, setBatch] = useState({
@@ -31,9 +32,10 @@ const AddBatch = () => {
   const [recipes, setRecipes] = useState([]); // HOLDS RECIPE DATA FETCHED FROM FIREBASE
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
+  const [isBackstock, setIsBackstock] = useState(false);
   const [isRetail, setIsRetail] = useState(false);
-  const oilOptions = ["D9", "D8", "FS", "D9/CBD", "D8/CBD"];
+  const navigate = useNavigate();
+  const oilOptions = ["D9", "D8", "CBD"];
   const milligramOptions = [
     10, 15, 20, 25, 30, 35, 40, 50, 100, 150, 200, 250, 400,
   ];
@@ -155,6 +157,9 @@ const AddBatch = () => {
         employeeId: "",
         orderName: "",
       });
+      setTimeout(() => {
+        navigate("/findIt");
+      }, 1000);
     } catch (err) {
       setError("Failed to add batch: " + err.message);
     }
@@ -167,49 +172,12 @@ const AddBatch = () => {
         margin: "auto",
         marginTop: "20px",
         padding: "16px",
-        color: "lightslategray",
+        //color: "lightslategray",
         height: "100vh", // Full screen height
         overflow: "auto", // Allow scrolling when content overflows
         boxSizing: "border-box", // Include padding in height calculation
-        "& .MuiFormLabel-root": {
-          color: "#FF007F", // Label color
-        },
-        "& .MuiInputBase-root": {
-          color: "#FF007F", // Input text color
-        },
-        "& .MuiOutlinedInput-root": {
-          "& fieldset": {
-            borderColor: "#FF007F", // Default border color
-          },
-          "& .MuiInputBase-input::placeholder": {
-            color: "#FF007F", // Change placeholder color
-            opacity: 1, // Ensure the opacity is visible (can be adjusted)
-          },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: "#bf08bb",
-          },
-          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-            {
-              borderColor: "black", // Focused border color
-            },
-          "& .MuiSelect-select": {
-            color: "#FF007F", // Select dropdown text color
-          },
-          "& .MuiMenuItem-root": {
-            color: "lightslategray", // Dropdown menu item color
-          },
-          "& .MuiMenuItem-root:hover": {
-            backgroundColor: "lightgray", // Dropdown menu hover background
-          },
-          "&:hover fieldset": {
-            borderColor: "#bf08bb", // Hover border color
-          },
-          "&.Mui-focused fieldset": {
-            borderColor: "#bf08bb", // Focused border color
-          },
-          "& .MuiInputBase-input": {
-            color: "#FF007F", // Input text color
-          },
+        "& .MuiInputBase-input": {
+          color: "inherit", // Allows child components to inherit specific styles
         },
       }}
     >
@@ -221,7 +189,7 @@ const AddBatch = () => {
       >
         Add a New Batch
       </Typography>
-      {success && <Alert severity="success">Batch added successfully!</Alert>}
+      {success && <Alert severity="success">You Did It!!</Alert>}
       {error && <Alert severity="error">{error}</Alert>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
@@ -235,27 +203,36 @@ const AddBatch = () => {
                 onChange={handleChange}
                 label="Recipe Name"
                 sx={{
-                  "& .MuiInputLabel-root": { color: "#FF007F" },
+                  // Label styles
+                  "& .MuiInputLabel-root": {
+                    color: "#FF007F", // Default label color
+                  },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#bf08bb",
+                    color: "#FF007F", // Focused label color
                   },
+
+                  // Placeholder styles
                   "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 1,
+                    color: "white", // Placeholder color
+                    opacity: 1, // Ensure placeholder is fully visible
                   },
+
+                  // Input text styles
+                  "& .MuiInputBase-input": {
+                    color: "white", // Set initial and typed text color to white
+                  },
+
+                  // Outlined input styles
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#FF007F",
+                      borderColor: "#bf08bb", // Default border color
                     },
                     "&:hover fieldset": {
-                      borderColor: "#11d272",
+                      borderColor: "#11d272", // Hover border color
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#11d272",
+                      borderColor: "#11d272", // Focused border color
                     },
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white",
                   },
                 }}
               >
@@ -278,36 +255,43 @@ const AddBatch = () => {
               value={batch.quantity}
               onChange={handleChange}
               required
+              placeholder="Enter quantity" // Placeholder text
               sx={{
-                "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                // Label styles
+                "& .MuiInputLabel-root": {
+                  color: "#FF007F", // Default label color
+                },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#11d272",
+                  color: "#FF007F", // Focused label color
                 },
+
+                // Placeholder styles
                 "& .MuiInputBase-input::placeholder": {
-                  color: "white", // Change placeholder color
-                  opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                  color: "white", // Placeholder color
+                  opacity: 1, // Ensure placeholder is fully visible
                 },
+
+                // Input text styles
+                "& .MuiInputBase-input": {
+                  color: "white", // Set initial and typed text color to white
+                },
+
+                // Outlined input styles
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#FF007F", // Default border color
+                    borderColor: "#bf08bb", // Default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "#11d272", // Hover border color
                   },
-
                   "&.Mui-focused fieldset": {
                     borderColor: "#11d272", // Focused border color
                   },
                 },
-                "& .MuiInputBase-input": {
-                  color: "white", // Input text color
-                },
-                "&:hover fieldset": {
-                  borderColor: "#bf08bb", // Hover border color
-                },
               }}
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -321,24 +305,40 @@ const AddBatch = () => {
                 sx: {
                   color: "#FF007F", // Default label color
                   "&.Mui-focused": {
-                    color: "#bf08bb", // Focused label color
+                    color: "#FF007F", // Focused label color
                   },
                 },
               }}
               sx={{
-                "& .MuiInputBase-input": {
-                  color: "#FF007F", // Input text color
+                // Label styles
+                "& .MuiInputLabel-root": {
+                  color: "#FF007F", // Default Label color
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#FF007F", // Focused label color
                 },
 
+                // Placeholder styles
+                "& .MuiInputBase-input::placeholder": {
+                  color: "#FF007F", // Placeholder color
+                  opacity: 1,
+                },
+
+                // Typed text styles
+                "& .MuiInputBase-input": {
+                  color: "white", // Input text color
+                },
+
+                // Outlined input styles
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#FF007F", // Default border color
+                    borderColor: "#bf08bb", // Default border color
                   },
                   "&:hover fieldset": {
-                    borderColor: "#bf08bb", // Hover border color
+                    borderColor: "#11d272", // Hover border color
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#bf08bb", // Focused border color
+                    borderColor: "#11d272", // Focused border color
                   },
                 },
               }}
@@ -366,10 +366,18 @@ const AddBatch = () => {
                     checked={isRetail}
                     onChange={(e) => {
                       setIsRetail(e.target.checked);
-                      setBatch((prev) => ({
-                        ...prev,
-                        orderName: e.target.checked ? "Retail" : "",
-                      }));
+                      if (e.target.checked) {
+                        setIsBackstock(false); // Uncheck the other checkbox
+                        setBatch((prev) => ({
+                          ...prev,
+                          orderName: "Retail",
+                        }));
+                      } else {
+                        setBatch((prev) => ({
+                          ...prev,
+                          orderName: "",
+                        }));
+                      }
                     }}
                     sx={{
                       color: "#FF007F",
@@ -380,7 +388,42 @@ const AddBatch = () => {
                     }}
                   />
                 }
-                label="Retail Order"
+                label="Retail"
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormControlLabel
+                sx={{
+                  color: isBackstock ? "#11d272" : "#FF007F",
+                }}
+                control={
+                  <Checkbox
+                    checked={isBackstock}
+                    onChange={(e) => {
+                      setIsBackstock(e.target.checked);
+                      if (e.target.checked) {
+                        setIsRetail(false); // Uncheck the other checkbox
+                        setBatch((prev) => ({
+                          ...prev,
+                          orderName: "Backstock",
+                        }));
+                      } else {
+                        setBatch((prev) => ({
+                          ...prev,
+                          orderName: "",
+                        }));
+                      }
+                    }}
+                    sx={{
+                      color: "#FF007F",
+                      "& .MuiSvgIcon-root": { fontSize: 28 },
+                      "&.Mui-checked": {
+                        color: "#11d272",
+                      },
+                    }}
+                  />
+                }
+                label="Backstock"
               />
             </FormGroup>
           </Grid>
@@ -394,17 +437,29 @@ const AddBatch = () => {
               onChange={handleChange}
               required
               sx={{
-                "& .MuiInputLabel-root": { color: "#FF007F" }, // Label color
+                // Label styles
+                "& .MuiInputLabel-root": {
+                  color: "#FF007F", // Default Label color
+                },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#11d272",
+                  color: "#FF007F", // Focused label color
                 },
+
+                // Placeholder styles
                 "& .MuiInputBase-input::placeholder": {
-                  color: "white", // Change placeholder color
-                  opacity: 1, // Ensure the opacity is visible (can be adjusted)
+                  color: "#FF007F", // Placeholder color
+                  opacity: 1,
                 },
+
+                // Typed text styles
+                "& .MuiInputBase-input": {
+                  color: "white", // Input text color
+                },
+
+                // Outlined input styles
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#FF007F", // Default border color
+                    borderColor: "#bf08bb", // Default border color
                   },
                   "&:hover fieldset": {
                     borderColor: "#11d272", // Hover border color
@@ -412,12 +467,6 @@ const AddBatch = () => {
                   "&.Mui-focused fieldset": {
                     borderColor: "#11d272", // Focused border color
                   },
-                },
-                "& .MuiInputBase-input": {
-                  color: "white", // Input text color
-                },
-                "&:hover fieldset": {
-                  borderColor: "#11d272", // Hover border color
                 },
               }}
             />
@@ -459,7 +508,7 @@ const AddBatch = () => {
                         sx={{
                           color: "#FF007F", // Default label color
                           "&.Mui-focused": {
-                            color: "#11d272", // Label color on focus
+                            color: "#FF007F", // Label color on focus
                           },
                         }}
                       >
@@ -504,7 +553,7 @@ const AddBatch = () => {
                         sx={{
                           color: "#FF007F", // Default label color
                           "&.Mui-focused": {
-                            color: "#11d272", // Label color on focus
+                            color: "#FF007F", // Label color on focus
                           },
                         }}
                       >
@@ -564,6 +613,9 @@ const AddBatch = () => {
                   marginTop: 2,
                   //backgroundColor: "#bf08bb",
                   backgroundColor: "#11d272",
+                  "&:hover": {
+                    backgroundColor: "#0eae5e",
+                  },
                 }}
               >
                 Add Dosage
@@ -579,6 +631,9 @@ const AddBatch = () => {
               sx={{
                 //backgroundColor: "#11d272",
                 backgroundColor: "#bf08bb",
+                "&:hover": {
+                  backgroundColor: "#a707a5",
+                },
               }}
             >
               Submit Batch

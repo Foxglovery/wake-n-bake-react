@@ -15,6 +15,7 @@ import CalendarIcon from "../components/IconService/CalenderIcon";
 import CountIcon from "../components/IconService/CountIcon";
 import OrderIcon from "../components/IconService/OrderIcon";
 import BakerIcon from "../components/IconService/BakerIcon";
+import { useNavigate } from "react-router-dom";
 // import counter from "../assets/";
 // import employeeIcon from "../assets/chef-svgrepo-com.svg";
 // import orderIcon from "../assets//delivery-trolley.svg";
@@ -83,7 +84,13 @@ const Log = () => {
   const [activeFilter, setActiveFilter] = useState(null);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [renderKey, setRenderKey] = useState(0);
+  const navigate = useNavigate();
 
+  // Handler for card clicking
+
+  const handleCardClick = (batch) => {
+    navigate(`/batch/${batch.id}`);
+  };
   // Sorting button logic
   const toggleEarliestBatch = () => {
     if (activeFilter === "earliestBatches") {
@@ -152,12 +159,15 @@ const Log = () => {
         const employeesSnapshot = await get(employeesRef);
 
         if (batchesSnapshot.exists()) {
-          // Transform Firebase data to array and sort by date (latest first)
-          const sortedBatches = Object.values(batchesSnapshot.val()).sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
-          );
+          // Transform Firebase data to include IDs and sort by date
+          const sortedBatches = Object.entries(batchesSnapshot.val())
+            .map(([id, data]) => ({
+              id, // Add the Firebase ID as a property
+              ...data, // Spread the rest of the batch data
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date (latest first)
 
-          setRecipes(sortedBatches); // Set sorted batches
+          setRecipes(sortedBatches); // Set sorted batches with IDs
           setFilteredRecipes(sortedBatches); // Set sorted batches for filtered view
         } else {
           setError("No batches available");
@@ -221,7 +231,10 @@ const Log = () => {
       >
         <Button
           variant="contained"
-          size="small" // Use Material-UI's size prop for smaller buttons
+          size="small"
+          TouchRippleProps={{
+            classes: { ripple: "custom-ripple" }, // Link to custom ripple styles
+          }}
           sx={{
             fontSize: "12px",
             padding: "4px 12px",
@@ -232,6 +245,10 @@ const Log = () => {
             "&:hover": {
               backgroundColor:
                 activeFilter === "myBatches" ? "#de016f" : "#aa07a7",
+            },
+            "& .custom-ripple": {
+              backgroundColor: "rgba(255, 255, 255, 0.4)", // Ripple color
+              transform: "scale(0.7)", // Constrain ripple size
             },
           }}
           onClick={toggleMyBatchesFilter}
@@ -283,7 +300,10 @@ const Log = () => {
       <Grid container spacing={3}>
         {filteredRecipes.map((recipe, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <StyledCard>
+            <StyledCard
+              onClick={() => handleCardClick(recipe)} // Navigate on card click
+              sx={{ cursor: "pointer" }} // Add pointer cursor to indicate clickable
+            >
               {/* Dosage Badges */}
               {Object.entries(recipe.dosage || {}).map(([key, dose], idx) => {
                 if (idx === 0) {
@@ -410,7 +430,12 @@ const Log = () => {
                 >
                   {/* Order */}
                   <Box
-                    sx={{ display: "flex", alignItems: "center", gap: "8px" }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginLeft: "5px",
+                    }}
                   >
                     <OrderIcon width="26px" height="26px" />
                     {/* <img

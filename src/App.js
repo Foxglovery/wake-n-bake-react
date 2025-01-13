@@ -17,21 +17,60 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#121212", // Dark background
-      paper: "#1e1e1e", // Slightly lighter for paper elements
+      default: "#121212",
+      paper: "#1e1e1e",
     },
     primary: {
-      main: "#90caf9", // Material blue
+      main: "#90caf9",
     },
     chip: {
       main: "#3AAED8",
     },
     secondary: {
-      main: "#f48fb1", // Material pink
+      main: "#f48fb1",
     },
   },
   typography: {
-    fontFamily: "Spicy Rice", // Material Design default font
+    fontFamily: "Spicy Rice",
+  },
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
+        TouchRippleProps: {
+          classes: {
+            ripple: "custom-ripple",
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#FF007F", // Default label color
+          "&.Mui-focused": {
+            color: "#FF007F", // Focused label color
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& fieldset": {
+            borderColor: "#bf08bb !important", // Ensure green as default border color
+          },
+          "&:hover fieldset": {
+            borderColor: "#11d272 !important", // Ensure hover border color is green
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "#11d272 !important", // Ensure focus border color is green
+          },
+        },
+        input: {
+          color: "white", // Input text color
+        },
+      },
+    },
   },
 });
 
@@ -61,13 +100,16 @@ function App() {
       <CssBaseline />
       <GlobalStyles
         styles={{
-          "*": {
-            scrollbarWidth: "none", // Firefox
-            msOverflowStyle: "none", // Internet Explorer
+          ".custom-ripple": {
+            backgroundColor: "rgba(0, 255, 174, 0)", // Default ripple color
+            //transform: "scale(0.3)", // Constrain ripple size
           },
-          "*::-webkit-scrollbar": {
-            display: "none", // Chrome, Safari, Opera
+          ".MuiTouchRipple-root .MuiTouchRipple-rippleVisible": {
+            animationDuration: "100ms", // Adjust ripple animation speed
           },
+          // ".MuiTouchRipple-root .MuiTouchRipple-child": {
+          //   borderRadius: "20px", // Shape of the ripple
+          // },
         }}
       />
       <div>

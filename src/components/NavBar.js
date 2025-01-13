@@ -117,7 +117,7 @@ function ResponsiveAppBar() {
                 color: "#FF007F",
                 padding: 0,
                 "&:hover": {
-                  backgroundColor: "transparent",
+                  backgroundColor: "transparent !important",
                 },
               }}
             >
@@ -202,12 +202,24 @@ function ResponsiveAppBar() {
                   top: "9px",
                   color: "black",
                   display: "block",
-                  backgroundColor: "transparent",
+                  transition: "none", // Disable transitions
+                  animation: "none", // Disable animations
+                  backgroundColor: "transparent", // Ensure no background on hover or active
+                  boxShadow: "none", // Remove any shadow effects
                   "&:hover": {
                     color: "white",
-                    backgroundColor: "transparent",
+                    backgroundColor: "transparent", // Ensure background doesn't change
+                    boxShadow: "none", // Prevent hover shadow
                   },
-                  "&:focus": { color: "white" },
+                  "&:focus": {
+                    outline: "none", // Disable focus outline
+                    color: "white",
+                  },
+                  "&:active": {
+                    transform: "none", // Prevent click shrinking effect
+                    backgroundColor: "transparent", // Ensure no background change
+                    boxShadow: "none", // Prevent shadow on active
+                  },
                 }}
               >
                 {page.name}
