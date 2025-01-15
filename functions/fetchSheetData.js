@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
 
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.REACT_APP_GoogleSheetId;
-    const range = "Sheet1!A1:C13"; // This uses the name at the bottom of the screen, not the top
+    const range = "Sheet1!A1:D6"; // This uses the name at the bottom of the screen, not the top
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,

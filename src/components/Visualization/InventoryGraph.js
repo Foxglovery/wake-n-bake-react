@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -60,9 +60,10 @@ const InventoryGraph = () => {
         const data = await response.json();
         // Transform the data into Recharts format
         const formattedData = data.slice(1).map((row) => ({
-          name: row[0], // 'name' column
-          par: row[1], // 'par' column
-          onHand: row[2], // 'on hand' column
+          sku: row[0], // SKU (for internal use only, not displayed)
+          name: row[1], // Product Name
+          par: row[2], // Par
+          onHand: row[3], // On Hand
         }));
 
         setChartData(formattedData);
@@ -86,20 +87,33 @@ const InventoryGraph = () => {
 
   return (
     <div style={{ width: "100%", height: 400 }}>
-      <Box display={"flex"} flexDirection={"column"}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        sx={{
+          maxWidth: { xs: "90%", sm: "80%", md: "60%" }, // Responsive max width
+          margin: "auto", // Center the text box
+          textAlign: "center", // Ensure text is centered
+        }}
+      >
         <Typography
           variant="h4"
-          textAlign="center"
           gutterBottom
-          sx={{ color: "#FF007F", marginTop: "20px" }}
+          sx={{
+            color: "#FF007F",
+            marginTop: "20px",
+            wordWrap: "break-word", // Ensure text wraps properly
+          }}
         >
           Bakery Inventory
         </Typography>
         <Typography
           variant="h7"
-          textAlign="center"
           gutterBottom
-          sx={{ color: "#FF007F" }}
+          sx={{
+            color: "#FF007F",
+            wordWrap: "break-word", // Ensure text wraps properly
+          }}
         >
           When the blue line dips near the red dashed line, it is time to bake
           more!
@@ -156,6 +170,7 @@ const InventoryGraph = () => {
             dataKey="par"
             stroke="#d40f0f"
             strokeDasharray="5 3"
+            dot={<CustomizedDot />}
           />
         </LineChart>
       </ResponsiveContainer>
