@@ -7,6 +7,7 @@ import FindIt from "../screens/FindIt";
 import Home from "../screens/Home";
 
 import Login from "../screens/Login";
+import CountIt from "../screens/CountIt";
 
 const routes = [
   {
@@ -44,6 +45,12 @@ const routes = [
     path: "/doseIt",
     component: DoseIt,
     name: "Calculating the required units to meet dosage",
+    protected: true,
+  },
+  {
+    path: "/countIt",
+    component: CountIt,
+    name: "Presenting visual representations of inventory",
     protected: true,
   },
   {
