@@ -20,6 +20,7 @@ const pages = [
   { name: "Bake It", link: "/bakeIt" },
   { name: "Find It", link: "/findIt" },
   { name: "Dose It", link: "/doseIt" },
+  { name: "Count It", link: "/countIt" },
 ];
 
 const settings = [

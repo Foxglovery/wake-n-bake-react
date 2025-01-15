@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import InventoryGraph from "./Visualization/InventoryGraph";
 
 const GoogleSheetFetcher = () => {
   const [sheetData, setSheetData] = useState([]);
+  const [xAxisData, setXAxisData] = useState([]);
+  const [seriesData, setSeriesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSheetData = async () => {
       try {
-        // Replace with your Netlify function endpoint
         const response = await fetch("/.netlify/functions/fetchSheetData");
 
         if (!response.ok) {
@@ -16,7 +18,14 @@ const GoogleSheetFetcher = () => {
         }
 
         const data = await response.json();
+
+        // Transform the data
+        const xData = data.slice(1).map((row) => row[0]); // 'name' column
+        const yData = data.slice(1).map((row) => row[2]); // 'on hand' column
+
         setSheetData(data);
+        setXAxisData(xData);
+        setSeriesData(yData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -56,6 +65,13 @@ const GoogleSheetFetcher = () => {
           ))}
         </tbody>
       </table>
+
+      <h2>Inventory Graph</h2>
+      {xAxisData.length > 0 && seriesData.length > 0 ? (
+        <InventoryGraph xAxisData={xAxisData} seriesData={seriesData} />
+      ) : (
+        <p>No data available for the graph.</p>
+      )}
     </div>
   );
 };
