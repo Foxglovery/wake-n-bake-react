@@ -78,15 +78,21 @@ const UnauthorizedPage = () => {
           sx={{
             backgroundColor: "black",
             color: "white",
+            "&:hover": {
+              backgroundColor: "#211f20",
+            },
           }}
         >
-          If You Lived Here, You'd Be (Home) Already
+          Back Away From This Place
         </Button>
         <Button
           variant="contained"
           onClick={() => navigate("/login")}
           sx={{
             backgroundColor: "red",
+            "&:hover": {
+              backgroundColor: "#a2011c",
+            },
           }}
         >
           Plead Your Case Before The Cabal (Register)

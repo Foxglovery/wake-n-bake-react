@@ -1,4 +1,4 @@
-import { Box, colors, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceArea,
 } from "recharts";
 
 const CustomizedDot = (props) => {
