@@ -121,7 +121,7 @@ function App() {
                 path={route.path}
                 element={
                   route.protected ? (
-                    <AuthChecker>
+                    <AuthChecker allowedRoles={route.allowedRoles}>
                       <route.component />
                     </AuthChecker>
                   ) : (

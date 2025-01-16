@@ -19,6 +19,9 @@ const AuthContainer = () => {
       const user = result.user;
 
       if (user) {
+        // Force refresh the token to get the latest claims
+        await user.getIdToken(true);
+
         const { uid, displayName, email } = user;
         const db = getDatabase();
         const employeeRef = ref(db, `employees/${uid}`);
@@ -26,29 +29,38 @@ const AuthContainer = () => {
         // Check if the employee already exists
         const snapshot = await get(employeeRef);
         if (!snapshot.exists()) {
+          // Add new user with "pending" role
           await set(employeeRef, {
-            name: displayName || "Unknown", // Fallback if displayName is null
+            name: displayName || "Unknown",
             email: email,
-            role: "employee", // Default role
+            role: "pending",
           });
 
-          console.log("New employee added to the database.");
+          console.log("New user added with pending role.");
         } else {
-          console.log("Employee already exists.");
+          console.log("User already exists.");
         }
 
-        // Log user roles
+        // Get user roles from refreshed token
         const idTokenResult = await user.getIdTokenResult();
-        const roles = idTokenResult.claims.role || "No role assigned";
-        const isAdmin = idTokenResult.claims.admin || false;
+        const claims = idTokenResult.claims;
+        console.log("Claims:", claims);
+        console.log("Admin Claim:", claims.admin);
+        console.log("Role Claim:", claims.role);
 
-        console.log("Current user roles:", roles);
-        console.log("Is Admin:", isAdmin);
+        if (claims.admin) {
+          console.log("Admin logged in.");
+          navigate("/");
+        } else if (claims.role === "employee") {
+          console.log("Employee logged in.");
+          navigate("/");
+        } else {
+          console.log("User is pending approval.");
+          setErrorMessage("Your account is awaiting admin approval.");
+        }
       }
 
       setDisabled(false);
-      console.info("TODO: navigate to authenticated screen");
-      navigate("/");
     } catch (error) {
       setErrorMessage(error.code + ": " + error.message);
       setDisabled(false);

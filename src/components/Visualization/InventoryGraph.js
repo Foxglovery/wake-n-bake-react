@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, colors, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -89,7 +89,6 @@ const InventoryGraph = () => {
           gutterBottom
           sx={{
             color: "#FF007F",
-            marginTop: "20px",
             wordWrap: "break-word", // Ensure text wraps properly
           }}
         >
@@ -113,10 +112,10 @@ const InventoryGraph = () => {
         <LineChart
           data={chartData}
           margin={{
-            top: 50,
+            top: 30,
             right: 50,
             left: 0,
-            bottom: 5,
+            bottom: 30,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -135,14 +134,10 @@ const InventoryGraph = () => {
           />
 
           <Tooltip />
-          <Legend />
-
-          {/* Highlight area below the par threshold */}
-          <ReferenceArea
-            y1={0}
-            y2={Math.max(...chartData.map((d) => d.par))}
-            fill="rgba(255, 0, 0, 0.04)"
-            strokeOpacity={0.1}
+          <Legend
+            wrapperStyle={{
+              marginBottom: "-30px", // Adds space between the legend and the graph
+            }}
           />
 
           {/* Line for 'onHand' */}
