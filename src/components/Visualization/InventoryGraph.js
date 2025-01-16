@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   LineChart,
@@ -15,20 +15,8 @@ import {
 const CustomizedDot = (props) => {
   const { cx, cy, value, payload } = props;
 
-  if (value < payload.par) {
-    return (
-      <svg
-        x={cx - 10}
-        y={cy - 10}
-        width={20}
-        height={20}
-        fill="red"
-        viewBox="0 0 1024 1024"
-      >
-        <circle cx="10" cy="10" r="10" />
-      </svg>
-    );
-  }
+  // Green if value > par, Red if value <= par
+  const fillColor = value > payload.par ? "green" : "red";
 
   return (
     <svg
@@ -36,7 +24,7 @@ const CustomizedDot = (props) => {
       y={cy - 10}
       width={20}
       height={20}
-      fill="green"
+      fill={fillColor}
       viewBox="0 0 1024 1024"
     >
       <circle cx="10" cy="10" r="10" />
@@ -111,6 +99,7 @@ const InventoryGraph = () => {
           variant="h7"
           gutterBottom
           sx={{
+            fontSize: { sm: "24px", md: "24px" },
             color: "#FF007F",
             wordWrap: "break-word", // Ensure text wraps properly
           }}
@@ -125,8 +114,8 @@ const InventoryGraph = () => {
           data={chartData}
           margin={{
             top: 50,
-            right: 30,
-            left: 20,
+            right: 50,
+            left: 0,
             bottom: 5,
           }}
         >
@@ -161,6 +150,7 @@ const InventoryGraph = () => {
             type="monotone"
             dataKey="onHand"
             stroke="#8884d8"
+            name="On Hand"
             dot={<CustomizedDot />}
           />
 
@@ -170,6 +160,7 @@ const InventoryGraph = () => {
             dataKey="par"
             stroke="#d40f0f"
             strokeDasharray="5 3"
+            name="Par"
             dot={<CustomizedDot />}
           />
         </LineChart>
