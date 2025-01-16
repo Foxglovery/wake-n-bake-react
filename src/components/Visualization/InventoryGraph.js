@@ -9,26 +9,13 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceArea,
 } from "recharts";
 
 const CustomizedDot = (props) => {
   const { cx, cy, value, payload } = props;
 
-  if (value < payload.par) {
-    return (
-      <svg
-        x={cx - 10}
-        y={cy - 10}
-        width={20}
-        height={20}
-        fill="red"
-        viewBox="0 0 1024 1024"
-      >
-        <circle cx="10" cy="10" r="10" />
-      </svg>
-    );
-  }
+  // Green if value > par, Red if value <= par
+  const fillColor = value > payload.par ? "green" : "red";
 
   return (
     <svg
@@ -36,7 +23,7 @@ const CustomizedDot = (props) => {
       y={cy - 10}
       width={20}
       height={20}
-      fill="green"
+      fill={fillColor}
       viewBox="0 0 1024 1024"
     >
       <circle cx="10" cy="10" r="10" />
@@ -60,9 +47,10 @@ const InventoryGraph = () => {
         const data = await response.json();
         // Transform the data into Recharts format
         const formattedData = data.slice(1).map((row) => ({
-          name: row[0], // 'name' column
-          par: row[1], // 'par' column
-          onHand: row[2], // 'on hand' column
+          sku: row[0], // SKU (for internal use only, not displayed)
+          name: row[1], // Product Name
+          par: row[2], // Par
+          onHand: row[3], // On Hand
         }));
 
         setChartData(formattedData);
@@ -86,20 +74,33 @@ const InventoryGraph = () => {
 
   return (
     <div style={{ width: "100%", height: 400 }}>
-      <Box display={"flex"} flexDirection={"column"}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        sx={{
+          maxWidth: { xs: "90%", sm: "80%", md: "60%" }, // Responsive max width
+          margin: "auto", // Center the text box
+          textAlign: "center", // Ensure text is centered
+        }}
+      >
         <Typography
           variant="h4"
-          textAlign="center"
           gutterBottom
-          sx={{ color: "#FF007F", marginTop: "20px" }}
+          sx={{
+            color: "#FF007F",
+            wordWrap: "break-word", // Ensure text wraps properly
+          }}
         >
           Bakery Inventory
         </Typography>
         <Typography
           variant="h7"
-          textAlign="center"
           gutterBottom
-          sx={{ color: "#FF007F" }}
+          sx={{
+            fontSize: { sm: "24px", md: "24px" },
+            color: "#FF007F",
+            wordWrap: "break-word", // Ensure text wraps properly
+          }}
         >
           When the blue line dips near the red dashed line, it is time to bake
           more!
@@ -110,10 +111,10 @@ const InventoryGraph = () => {
         <LineChart
           data={chartData}
           margin={{
-            top: 50,
-            right: 30,
-            left: 20,
-            bottom: 5,
+            top: 30,
+            right: 50,
+            left: 0,
+            bottom: 30,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -132,14 +133,10 @@ const InventoryGraph = () => {
           />
 
           <Tooltip />
-          <Legend />
-
-          {/* Highlight area below the par threshold */}
-          <ReferenceArea
-            y1={0}
-            y2={Math.max(...chartData.map((d) => d.par))}
-            fill="rgba(255, 0, 0, 0.04)"
-            strokeOpacity={0.1}
+          <Legend
+            wrapperStyle={{
+              marginBottom: "-30px", // Adds space between the legend and the graph
+            }}
           />
 
           {/* Line for 'onHand' */}
@@ -147,6 +144,7 @@ const InventoryGraph = () => {
             type="monotone"
             dataKey="onHand"
             stroke="#8884d8"
+            name="On Hand"
             dot={<CustomizedDot />}
           />
 
@@ -156,6 +154,8 @@ const InventoryGraph = () => {
             dataKey="par"
             stroke="#d40f0f"
             strokeDasharray="5 3"
+            name="Par"
+            dot={<CustomizedDot />}
           />
         </LineChart>
       </ResponsiveContainer>

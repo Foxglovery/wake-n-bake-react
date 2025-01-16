@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import Center from "../components/utils/Center";
 import NavBar from "../components/NavBar";
-import DosageCalculator from "../components/DosageCalculator";
 import { useNavigate } from "react-router-dom";
+import UnauthorizedPage from "../components/auth/UnauthorizedPage";
 
-const DoseIt = (props) => {
+const Unauthorized = (props) => {
   const navigate = useNavigate();
   useEffect(() => {}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Center height={100}>
+    <Center height={"auto"}>
       <NavBar navigate={navigate} />
-      <DosageCalculator />
+      <UnauthorizedPage />
     </Center>
   );
 };
 
-export default DoseIt;
+export default Unauthorized;

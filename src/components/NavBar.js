@@ -26,7 +26,7 @@ const pages = [
 const settings = [
   { name: "Profile", link: "/profile" },
   { name: "Add A Recipe", link: "/addRecipe" },
-  { name: "Dashboard", link: "/dashboard" },
+  //{ name: "Dashboard", link: "/dashboard" },
   { name: "Logout", action: "logout" }, // Add an action key for logout
 ];
 
@@ -227,7 +227,6 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

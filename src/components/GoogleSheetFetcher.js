@@ -19,13 +19,14 @@ const GoogleSheetFetcher = () => {
 
         const data = await response.json();
 
-        // Transform the data
-        const xData = data.slice(1).map((row) => row[0]); // 'name' column
-        const yData = data.slice(1).map((row) => row[2]); // 'on hand' column
-
-        setSheetData(data);
-        setXAxisData(xData);
-        setSeriesData(yData);
+        // Transform the data to match the correct columns
+        const xData = data.slice(1).map((row) => row[1]); // Product Name (Column B)
+        const yData = data.slice(1).map((row) => row[3]); // On Hand (Column D)
+        const tableData = data.map((row) => row.slice(0)); // Exclude SKU (Column A)
+        const dataForApp = tableData.map(({ sku, ...rest }) => rest);
+        setSheetData(dataForApp); // Used for rendering the table
+        setXAxisData(xData); // Product names for the x-axis
+        setSeriesData(yData); // On-hand values for the graph
       } catch (err) {
         setError(err.message);
       } finally {
