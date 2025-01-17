@@ -6,7 +6,7 @@ const admin = require("firebase-admin");
 // Decode and parse the Base64-encoded service account key from the .env file
 const serviceAccount = JSON.parse(
   Buffer.from(
-    process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
+    process.env.GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
     "base64"
   ).toString("utf-8")
 );
@@ -26,4 +26,4 @@ const assignRole = async (uid, role) => {
 };
 
 // Example usage
-assignRole(process.env.REACT_APP_FirebaseAddEmployeeClaimUID, "employee");
+assignRole(process.env.FirebaseAddEmployeeClaimUID, "employee");

@@ -5,10 +5,9 @@ const { google } = require("googleapis");
 exports.handler = async (event, context) => {
   try {
     const keys = JSON.parse(
-      Buffer.from(
-        process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_KEY,
-        "base64"
-      ).toString("utf-8")
+      Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_KEY, "base64").toString(
+        "utf-8"
+      )
     );
 
     const auth = new google.auth.GoogleAuth({
