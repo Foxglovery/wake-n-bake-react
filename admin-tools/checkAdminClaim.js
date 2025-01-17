@@ -6,7 +6,7 @@ const admin = require("firebase-admin");
 // Initialize Firebase Admin SDK
 const serviceAccount = JSON.parse(
   Buffer.from(
-    process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
+    process.env.GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
     "base64"
   ).toString("utf-8")
 );
@@ -31,5 +31,5 @@ const checkAdminClaim = async (email) => {
   }
 };
 
-// Replace with your email
-checkAdminClaim(process.env.REACT_APP_FirebaseCheckAdminClaimEmail);
+// Replace with the email you want to  check
+checkAdminClaim(process.env.FirebaseCheckAdminClaimEmail);

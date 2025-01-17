@@ -7,7 +7,7 @@ const admin = require("firebase-admin");
 // Decode and parse the Base64-encoded service account key from the .env file
 const serviceAccount = JSON.parse(
   Buffer.from(
-    process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
+    process.env.GOOGLE_SERVICE_ACCOUNT_KEY, // Ensure this variable exists in .env
     "base64"
   ).toString("utf-8")
 );
@@ -28,4 +28,4 @@ const setAdminClaim = async (uid) => {
 };
 
 // Example usage: Call this function with the user's UID
-setAdminClaim(process.env.REACT_APP_FirebaseAddAdminClaimUID);
+setAdminClaim(process.env.FirebaseAddAdminClaimUID);
