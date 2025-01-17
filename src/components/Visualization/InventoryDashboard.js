@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 
 const InventoryDashboard = () => {
   // This must === Sheet Category column. Add to array as list grows
-  const categories = ["Cookie", "Mallow", "Gummies"];
+  const categories = ["Cookie", "Mallow", "Gummy"];
 
   return (
     <Box
@@ -28,7 +28,7 @@ const InventoryDashboard = () => {
           wordWrap: "break-word",
         }}
       >
-        Bakery Inventory Dashboard
+        Bakery Inventory
       </Typography>
       <Typography
         variant="body1"
