@@ -31,7 +31,7 @@ const CustomizedDot = (props) => {
   );
 };
 
-const InventoryGraph = () => {
+const InventoryGraph = ({ category }) => {
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,19 +39,29 @@ const InventoryGraph = () => {
   useEffect(() => {
     const fetchSheetData = async () => {
       try {
-        const response = await fetch("/.netlify/functions/fetchSheetData"); // Replace with your Netlify function URL
+        const response = await fetch(
+          `/.netlify/functions/fetchSheetData?category=${encodeURIComponent(
+            category
+          )}`
+        );
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        // Transform the data into Recharts format
-        const formattedData = data.slice(1).map((row) => ({
-          sku: row[0], // SKU (for internal use only, not displayed)
-          name: row[1], // Product Name
-          par: row[2], // Par
-          onHand: row[3], // On Hand
-        }));
+        const formattedData = data
+          .slice(1) // Skip the header row
+          .map((row) => {
+            if (!row[2] || !row[3]) return null; // Skip rows with missing data
+            return {
+              sku: row[0],
+              name: row[1],
+              par: parseInt(row[2], 10) || 0,
+              onHand: parseInt(row[3], 10) || 0,
+            };
+          })
+          .filter(Boolean); // Remove null values
 
         setChartData(formattedData);
       } catch (err) {
@@ -61,8 +71,10 @@ const InventoryGraph = () => {
       }
     };
 
-    fetchSheetData();
-  }, []);
+    if (category) {
+      fetchSheetData();
+    }
+  }, [category]);
 
   if (loading) {
     return <p>Loading chart data...</p>;
@@ -72,41 +84,12 @@ const InventoryGraph = () => {
     return <p>Error: {error}</p>;
   }
 
+  if (!category) {
+    return <p>No category provided.</p>;
+  }
+
   return (
     <div style={{ width: "100%", height: 400 }}>
-      <Box
-        display="flex"
-        flexDirection="column"
-        sx={{
-          maxWidth: { xs: "90%", sm: "80%", md: "60%" }, // Responsive max width
-          margin: "auto", // Center the text box
-          textAlign: "center", // Ensure text is centered
-        }}
-      >
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{
-            color: "#FF007F",
-            wordWrap: "break-word", // Ensure text wraps properly
-          }}
-        >
-          Bakery Inventory
-        </Typography>
-        <Typography
-          variant="h7"
-          gutterBottom
-          sx={{
-            fontSize: { sm: "24px", md: "24px" },
-            color: "#FF007F",
-            wordWrap: "break-word", // Ensure text wraps properly
-          }}
-        >
-          When the blue line dips near the red dashed line, it is time to bake
-          more!
-        </Typography>
-      </Box>
-
       <ResponsiveContainer>
         <LineChart
           data={chartData}
@@ -135,7 +118,7 @@ const InventoryGraph = () => {
           <Tooltip />
           <Legend
             wrapperStyle={{
-              marginBottom: "-30px", // Adds space between the legend and the graph
+              marginBottom: "-20", // Adds space between the legend and the graph
             }}
           />
 
