@@ -11,38 +11,63 @@ const InventoryDashboard = () => {
       display="flex"
       flexDirection="column"
       sx={{
-        maxWidth: { xs: "90%", sm: "80%", md: "60%" }, // Responsive max width
-        margin: "auto", // Center the text box
-        textAlign: "center", // Ensure text is centered
-        gap: 1,
+        maxWidth: { xs: "90%", sm: "80%", md: "60%" },
+        margin: "auto",
+        textAlign: "center",
+        gap: 4, // Adds spacing between sections
+        paddingBottom: "40px", // Adds space at the bottom of the dashboard
       }}
     >
+      {/* Main Heading */}
       <Typography
         variant="h4"
         gutterBottom
         sx={{
           color: "#FF007F",
-          wordWrap: "break-word", // Ensure text wraps properly
           marginTop: "20px",
+          wordWrap: "break-word",
         }}
-      ></Typography>
+      >
+        Bakery Inventory Dashboard
+      </Typography>
       <Typography
-        variant="h7"
+        variant="body1"
         gutterBottom
         sx={{
-          fontSize: { sm: "24px", md: "24px" },
+          fontSize: { xs: "16px", md: "18px" },
           color: "#FF007F",
-          wordWrap: "break-word", // Ensure text wraps properly
+          wordWrap: "break-word",
         }}
       >
         When the blue line dips near the red dashed line, it is time to bake
-        more!
+        more! Use this dashboard to monitor your inventory levels across
+        categories.
       </Typography>
+
+      {/* Map through categories */}
       {categories.map((category) => (
-        <div key={category}>
-          <h2>{category}</h2>
+        <Box
+          key={category}
+          sx={{
+            marginBottom: "40px", // Space between each graph
+          }}
+        >
+          {/* Category Title */}
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              color: "#FF007F",
+              marginBottom: "20px",
+              textAlign: "center",
+            }}
+          >
+            {category} Inventory
+          </Typography>
+
+          {/* Render Graph */}
           <InventoryGraph category={category} />
-        </div>
+        </Box>
       ))}
     </Box>
   );

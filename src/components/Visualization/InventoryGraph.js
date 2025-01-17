@@ -65,7 +65,7 @@ const InventoryGraph = ({ category }) => {
 
         setChartData(formattedData);
       } catch (err) {
-        setError(err.message);
+        setError(`Failed to load data for ${category}: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -77,15 +77,23 @@ const InventoryGraph = ({ category }) => {
   }, [category]);
 
   if (loading) {
-    return <p>Loading chart data...</p>;
+    return <p>Loading {category} data...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <Typography color="error" textAlign="center">
+        {error}
+      </Typography>
+    );
   }
 
-  if (!category) {
-    return <p>No category provided.</p>;
+  if (chartData.length === 0) {
+    return (
+      <Typography textAlign="center" color="textSecondary">
+        No data available for {category}.
+      </Typography>
+    );
   }
 
   return (
@@ -97,7 +105,7 @@ const InventoryGraph = ({ category }) => {
             top: 30,
             right: 50,
             left: 0,
-            bottom: 30,
+            bottom: 60,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -117,8 +125,11 @@ const InventoryGraph = ({ category }) => {
 
           <Tooltip />
           <Legend
+            verticalAlign="top" // Position legend at the bottom
+            align="center" // Align legend to the center horizontally
             wrapperStyle={{
-              marginBottom: "-20", // Adds space between the legend and the graph
+              marginTop: "-15px", // Adds space between the graph and the legend
+              marginLeft: "20px",
             }}
           />
 
