@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const { google } = require("googleapis");
 
 exports.handler = async (event, context) => {
@@ -17,23 +16,56 @@ exports.handler = async (event, context) => {
 
     const sheets = google.sheets({ version: "v4", auth });
     const spreadsheetId = process.env.GoogleSheetId;
-    console.log("Spreadsheet ID:", spreadsheetId);
-    const range = "Sheet1!A1:D6"; // This uses the name at the bottom of the screen, not the top
 
+    // Fetch the entire data table
+    const range = "Sheet1!A1:E16"; // Adjust range based on sheet layout
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     });
 
+    const rows = response.data.values;
+    if (!rows || rows.length === 0) {
+      throw new Error("No data found in the sheet.");
+    }
+
+    const headers = rows[0]; // First row as headers
+    const categoryIndex = headers.indexOf("Category");
+    const category = event.queryStringParameters?.category?.trim();
+
+    if (!category) {
+      return {
+        statusCode: 400,
+        body: "Category query parameter is required.",
+      };
+    }
+
+    if (categoryIndex === -1) {
+      throw new Error("Category column not found in the headers.");
+    }
+
+    const filteredData = rows.filter(
+      (row, index) => index > 0 && row[categoryIndex]?.trim() === category
+    );
+
+    if (filteredData.length === 0) {
+      return {
+        statusCode: 404,
+        body: `No data found for category: ${category}`,
+      };
+    }
+
+    const filteredWithHeaders = [headers, ...filteredData];
+
     return {
       statusCode: 200,
-      body: JSON.stringify(response.data.values),
+      body: JSON.stringify(filteredWithHeaders),
     };
   } catch (error) {
     console.error("Error fetching sheet data:", error);
     return {
       statusCode: 500,
-      body: "Error fetching sheet data.",
+      body: `Error fetching sheet data: ${error.message}`,
     };
   }
 };
