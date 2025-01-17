@@ -31,5 +31,5 @@ const checkAdminClaim = async (email) => {
   }
 };
 
-// Replace with your email
+// Replace with the email you want to  check
 checkAdminClaim(process.env.FirebaseCheckAdminClaimEmail);
